@@ -28,7 +28,6 @@ import javafx.stage.Stage;
 
 
 public class Game extends Application {
-	private int score;
 	private final static int WIDTH = 1600;
 	private final static int HEIGHT = 900;
 	private final static int NBPLANETS = 6;
@@ -43,17 +42,18 @@ public class Game extends Application {
 		Application.launch(Game.class,args);
 	}
 	
-	public static Boolean planetCollision(Planet p1, Planet p2)
-	{
-		if (p1.getSprite().getX() < p2.getSprite().getX() + p2.getSprite().width() &&
-				   p1.getSprite().getX() + p1.getSprite().width()> p2.getSprite().getX() &&
-				   p1.getSprite().getY() < p2.getSprite().getY() + p2.getSprite().height() &&
-				   p1.getSprite().height() + p1.getSprite().getY() > p2.getSprite().getY()) {
-				    return true;
-				}
-		return false;
+	public static int getWidth() {
+		return WIDTH;
 	}
-	
+	public static int getHeight() {
+		return HEIGHT;
+	}
+	public static int getNbplanets() {
+		return NBPLANETS;
+	}
+	public static List<Planet> getPlanetslist() {
+		return PLANETSLIST;
+	}
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		// TODO Auto-generated method stub
@@ -62,8 +62,8 @@ public class Game extends Application {
 
 		
 		Random r = new Random();
-		int low = 160;
-		int high = 261;
+		int low = 125;
+		int high = 225;
 		int defLow =200;
 		int defHight =401;
 		int prodLow =1;
@@ -91,48 +91,44 @@ public class Game extends Application {
 		
 		Image space = new Image(getRessourcePathByName("ressources/space.png"), WIDTH, HEIGHT, false, false);
 
-		for (int i = 0; i < NBPLANETS-2; i++) {
+		
+		for (int i = 0; i < NBPLANETS; i++) {
 			planetR = r.nextInt(high-low) + low;
 			defR = r.nextInt(defHight-defLow)+defLow;
 			prodR = r.nextInt(prodHight-prodLow)+prodLow;
 			typeR = r.nextInt(type2-type1)-type2;
-			PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetNeutral.png"), planetR, planetR, WIDTH, HEIGHT), null));
-			if (i==0) PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-			else {
+			if(i==0)
+			{
+				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetPlayer.png"), planetR, planetR,  WIDTH, HEIGHT), player));
+				player = new Player("Player", PLANETSLIST.get(0));
 				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				while(planetCollision(PLANETSLIST.get(i-1), PLANETSLIST.get(i)))
-				{
-					PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				}
 			}
-	
+			else if(i==1)
+			{
+				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetIA.png"), planetR, planetR,  WIDTH, HEIGHT), ia));
+				player = new Player("Player", PLANETSLIST.get(1));
+				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
+				PLANETSLIST.get(i).correctionCollision();
+			}
+			else
+			{
+				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetNeutral.png"), planetR, planetR, WIDTH, HEIGHT), null));
+				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
+				PLANETSLIST.get(i).correctionCollision();
+			}
 		}
 		
-		planetR = r.nextInt(high-low) + low;
-		defR = r.nextInt(defHight-defLow)+defLow;
-		prodR = r.nextInt(prodHight-prodLow)+prodLow;
-		typeR = r.nextInt(type2-type1)-type2;
-		PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetPlayer.png"), planetR, planetR,  WIDTH, HEIGHT), player));
-		player = new Player("Player", PLANETSLIST.get(NBPLANETS-2));
-		PLANETSLIST.get(NBPLANETS-2).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-			
-			
-		planetR = r.nextInt(high-low) + low;
-		defR = r.nextInt(defHight-defLow)+defLow;
-		prodR = r.nextInt(prodHight-prodLow)+prodLow;
-		typeR = r.nextInt(type2-type1)-type2;
-		PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetIA.png"), planetR, planetR,  WIDTH, HEIGHT), ia));
-		player = new Player("Player", PLANETSLIST.get(NBPLANETS-1));
-		PLANETSLIST.get(NBPLANETS-1).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-
 		
+		
+		
+			
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
 		new AnimationTimer() {
 			public void handle(long arg0) {
 				gc.drawImage(space, 0, 0);
-
+				
 				/*
 				spaceship.updatePosition();
 
@@ -159,18 +155,24 @@ public class Game extends Application {
   				*/
 				Iterator<Planet> it = PLANETSLIST.iterator();
 				while (it.hasNext()) {
-					Sprite planet = it.next().getSprite();
-					planet.updatePosition();
-					planet.render(gc);
+					Planet planet = it.next();
+					planet.getSprite().updatePosition();
+					planet.getSprite().render(gc);
+					double radius =  (planet.getSprite().width())/2;
+
+					gc.fillText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
+					gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
+					gc.setTextAlign(TextAlignment.CENTER);
 				}
-				String txt = "Score: " + score;
-				gc.fillText(txt, WIDTH - 36, 36);
-				gc.strokeText(txt, WIDTH - 36, 36);
-				gc.setTextAlign(TextAlignment.RIGHT);
+				
 			}
-		}.start();
+		}
+		
+		.start();
+		
 		
 		}
 
 		
 	}
+
