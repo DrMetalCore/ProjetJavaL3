@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -32,6 +34,7 @@ public class Game extends Application {
 	private final static int HEIGHT = 900;
 	private final static int NBPLANETS = 6;
 	private final static List<Planet> PLANETSLIST = new ArrayList<Planet>();
+	private final static List<Planet> SELECTED = new ArrayList<Planet>();
 	private static Player player;
 	private static Player ia;
 	
@@ -108,27 +111,59 @@ public class Game extends Application {
 				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetIA.png"), planetR, planetR,  WIDTH, HEIGHT), ia));
 				player = new Player("Player", PLANETSLIST.get(1));
 				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				PLANETSLIST.get(i).correctionCollision();
+				PLANETSLIST.get(i).correctCollision();
 			}
 			else
 			{
 				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetNeutral.png"), planetR, planetR, WIDTH, HEIGHT), null));
 				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				PLANETSLIST.get(i).correctionCollision();
+				PLANETSLIST.get(i).correctCollision();
 			}
 		}
-		
-		
-		
-		
+			TimerTask increaseDefPow = new TimerTask() {
+				
+				@Override
+				public void run() {
+					for (Planet planet : PLANETSLIST) {
+						planet.setDefencePow(planet.getDefencePow()+1);
+					}
+					
+				}
+			};
 			
+			
+			Timer timer = new Timer();
+			timer.schedule(increaseDefPow,0, 1000);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		
+		//EVENTS
+		
+		//Mouse event
+		EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				for (Planet planet : PLANETSLIST) {
+					if(SELECTED.size()<2 && planet.isSelected(e.getX(),e.getY()) && (SELECTED.isEmpty()||!SELECTED.get(0).equals(planet))) 
+						{
+							
+							SELECTED.add(planet);
+							System.out.println(SELECTED.get(0).getDefencePow());
+							if(SELECTED.size()==2) System.out.println("Connected");
+							System.err.println(SELECTED.size());
+							
+						}
+					else if (SELECTED.size()>=2) SELECTED.clear();
+				}
+			}
+		};
+
+		scene.setOnMouseDragged(mouseHandler);
+		scene.setOnMousePressed(mouseHandler);
+		
 		
 		new AnimationTimer() {
 			public void handle(long arg0) {
 				gc.drawImage(space, 0, 0);
-				
 				/*
 				spaceship.updatePosition();
 
@@ -163,14 +198,15 @@ public class Game extends Application {
 					gc.fillText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 					gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 					gc.setTextAlign(TextAlignment.CENTER);
+					
+					
+					
 				}
-				
 			}
 		}
 		
 		.start();
-		
-		
+	
 		}
 
 		
