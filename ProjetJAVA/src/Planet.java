@@ -17,28 +17,6 @@ public class Planet {
 		this.sprite = sprite;
 		this.owner = owner;
 	}
-	public Boolean planetCollision(Planet p2)
-	{
-		
-		double dx = this.getSprite().getX()- p2.getSprite().getX();
-		double dy = this.getSprite().getY() - p2.getSprite().getY();
-		double distance = Math.sqrt(dx * dx + dy * dy);
-		if (distance < this.getSprite().height() + p2.getSprite().height()) {
-			return true;
-		}
-		return false;
-	}
-	public void correctionCollision()
-	{
-		for (int i = 0; i<Game.getPlanetslist().size()-1; i++)
-		{
-			if(this.planetCollision(Game.getPlanetslist().get(i)))
-				{
-					this.getSprite().setPosition(Game.getWidth()*Math.random(), Game.getHeight()*Math.random());
-					this.correctionCollision();
-				}
-		}
-	}
 	public int getDefencePow() {
 		return defencePow;
 	}
@@ -48,5 +26,44 @@ public class Planet {
 	}
 	public Sprite getSprite() {
 		return sprite;
+	}
+	public boolean planetCollision(Planet p2)
+	{
+		
+		double dx = this.getSprite().getX()- p2.getSprite().getX();
+		double dy = this.getSprite().getY() - p2.getSprite().getY();
+		double distance = Math.sqrt(dx * dx + dy * dy);
+		if (distance < this.getSprite().height() + p2.getSprite().height()) {
+			return true;
+		}
+		else return false;
+	}
+	public void correctCollision()
+	{
+		for (int i = 0; i<Game.getPlanetslist().size()-1; i++)
+		{
+			if(this.planetCollision(Game.getPlanetslist().get(i)))
+			{
+				this.getSprite().setPosition(Game.getWidth()*Math.random(), Game.getHeight()*Math.random());
+				this.correctCollision();
+			}
+		}
+	}
+	
+	public boolean isSelected(double x, double y)
+	{
+		if(Math.sqrt(Math.pow(x-(this.getSprite().getX()+this.getSprite().width()/2), 2)+Math.pow(y-(this.getSprite().getY()+this.getSprite().width()/2), 2))<this.getSprite().width()/2) return true;
+		else return false;
+	}
+	
+	public boolean equals(Planet p)
+	{
+		if(this == p) return true;
+		else if(this.diameter==p.diameter && 
+				this.prodRate == p.prodRate &&
+				this.typeProducted == p.typeProducted &&
+				this.owner == p.owner &&
+				this.sprite == p.sprite) return true;
+		else return false;
 	}
 }
