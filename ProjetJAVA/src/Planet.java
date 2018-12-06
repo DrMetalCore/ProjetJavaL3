@@ -6,6 +6,7 @@ public class Planet {
 	private int diameter,defencePow, prodRate, typeProducted;
 	private Sprite sprite;
 	private Player owner;
+	private boolean selectedAndValid = false;
 	private List<SpaceShip> ships = new ArrayList<SpaceShip>();
 	
 	public Planet(int diameter, int defencePow, int prodRate, int typeProducted, Sprite sprite, Player owner) {
@@ -27,6 +28,11 @@ public class Planet {
 	public Sprite getSprite() {
 		return sprite;
 	}
+	
+	public boolean isSelectedAndValid() {
+		return selectedAndValid;
+	}
+	
 	public boolean planetCollision(Planet p2)
 	{
 		
@@ -55,7 +61,18 @@ public class Planet {
 		if(Math.sqrt(Math.pow(x-(this.getSprite().getX()+this.getSprite().width()/2), 2)+Math.pow(y-(this.getSprite().getY()+this.getSprite().width()/2), 2))<this.getSprite().width()/2) return true;
 		else return false;
 	}
-	
+	public void isValid()
+	{
+
+		if(Game.getSelected().isEmpty() && Game.getPlayer().havePlanet(this)) {
+			this.selectedAndValid = true;
+			Game.getSelected().add(this);
+		}
+		else if(!Game.getSelected().isEmpty() && (this.owner==null || Game.getIa().havePlanet(this)) && !Game.getSelected().get(0).equals(this)) {
+			Game.getSelected().get(0).selectedAndValid = false;
+			Game.getSelected().add(this);
+		}
+	}
 	public boolean equals(Planet p)
 	{
 		if(this == p) return true;
