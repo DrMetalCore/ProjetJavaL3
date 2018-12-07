@@ -19,10 +19,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaException;
@@ -43,7 +45,6 @@ public class Game extends Application {
 	private final static List<Planet> SELECTED = new ArrayList<Planet>();
 	private final static Player player = new Player("Player");
 	private final static Player ia = new Player("IA");
-	private static int nbOfSpaceshipToSend = 0;
 	
 	public static String getRessourcePathByName(String name) {
 		return Game.class.getResource('/' + name).toString();
@@ -75,34 +76,7 @@ public class Game extends Application {
 	public static Player getIa() {
 		return ia;
 	}
-	public boolean isInt(Stage window, TextField field)
-	{
-		try {
-			nbOfSpaceshipToSend = Integer.parseInt(field.getText());
-			window.close();
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
-	public void nbOfSpaceShipBox(Stage primaryStage, Scene scene)
-	{
-		
-		Stage window=primaryStage;
-		window.setTitle("thenewboston");
-		//Eorm 
-		TextField nbOfSpaceShip = new TextField ();
-		Button button = new Button("click me");
-		button.setOnAction( e -> isInt( window, nbOfSpaceShip));
-				
-		VBox layout = new VBox (10) ; 
-		
-		layout.setPadding (new Insets(20,20,20,20) );
-		layout.getChildren().addAll(nbOfSpaceShip, button); 
-		scene = new Scene (layout, 300, 250); 
-		window.setScene (scene); 
-		window.show();
-	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		// TODO Auto-generated method stub
@@ -193,6 +167,7 @@ public class Game extends Application {
 						planet.isValid();
 					}
 					else if(SELECTED.size()==2) {
+						planet.nbOfSpaceShipBox(primaryStage);
 						SELECTED.clear();
 					}
 				}
@@ -240,10 +215,11 @@ public class Game extends Application {
 					gc.fillText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 					gc.setTextAlign(TextAlignment.CENTER);
 					if(planet.isSelectedAndValid()) {
-						nbOfSpaceShipBox(primaryStage, scene);
-						System.out.println(nbOfSpaceshipToSend);
-					gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
+						gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 
+					}
+					for (Squadron squadron : planet.getSquadrons()) {
+						squadron.showAllSpaceShip(gc);
 					}
 
 					
