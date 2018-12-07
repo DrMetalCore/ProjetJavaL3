@@ -229,7 +229,7 @@ public class Game extends Application {
 		}
 		
 		.start();
-	
+	 
 		}
 
 		
