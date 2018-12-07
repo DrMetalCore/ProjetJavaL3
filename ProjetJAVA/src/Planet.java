@@ -1,13 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
 public class Planet {
 
 	private int diameter,defencePow, prodRate, typeProducted;
 	private Sprite sprite;
 	private Player owner;
-	private boolean selectedAndValid = false;
-	private List<SpaceShip> ships = new ArrayList<SpaceShip>();
+	private int nbOfSpaceshipToSend;
+	private boolean selectedAndValid;
+	private List<Squadron> squadrons;
 	
 	public Planet(int diameter, int defencePow, int prodRate, int typeProducted, Sprite sprite, Player owner) {
 		super();
@@ -17,6 +25,9 @@ public class Planet {
 		this.typeProducted = typeProducted;
 		this.sprite = sprite;
 		this.owner = owner;
+		this.nbOfSpaceshipToSend = 0;
+		this.selectedAndValid = false;
+		this.squadrons = new ArrayList<Squadron>();
 	}
 	public int getDefencePow() {
 		return defencePow;
@@ -29,6 +40,9 @@ public class Planet {
 		return sprite;
 	}
 	
+	public List<Squadron> getSquadrons() {
+		return squadrons;
+	}
 	public boolean isSelectedAndValid() {
 		return selectedAndValid;
 	}
@@ -82,5 +96,49 @@ public class Planet {
 				this.owner == p.owner &&
 				this.sprite == p.sprite) return true;
 		else return false;
+	}
+	public boolean generateSpaceShips(Stage window, TextField field)
+	{
+		try {
+			
+			this.nbOfSpaceshipToSend = Integer.parseInt(field.getText());
+			System.out.println(this.nbOfSpaceshipToSend);
+			window.close();
+			Squadron sq = new Squadron();
+			for (int i = 0; i < nbOfSpaceshipToSend; i++) {
+				SpaceShip sp = new SpaceShip(this.typeProducted);
+				sp.getSprite().setPosition(20, 20);
+				sq.addSpaceShip(sp);
+			}
+			this.squadrons.add(sq);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	public void nbOfSpaceShipBox(Stage primaryStage)
+	{
+		
+		Label secondLabel = new Label("Combien de vaisseaux voulez vous envoyer ?");
+		TextField nbOfSpaceShip = new TextField ();
+		Button buttonV = new Button("Valider");
+
+        VBox secondaryLayout = new VBox(10);
+        secondaryLayout.getChildren().addAll(secondLabel,nbOfSpaceShip,buttonV);
+        
+        Scene secondScene = new Scene(secondaryLayout, 300, 125);
+        
+        
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Invasion");
+        newWindow.setScene(secondScene);
+        
+        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip));
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
+
+        newWindow.show();
 	}
 }
