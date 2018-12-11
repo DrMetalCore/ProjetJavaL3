@@ -157,6 +157,10 @@ public class Game extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
+		SpaceShip s = new SpaceShip(2);
+		Sprite spriteDeS = s.getSprite();
+		spriteDeS.setSpeed(1,1);
+		
 		//EVENTS
 		
 		//Mouse event
@@ -221,7 +225,9 @@ public class Game extends Application {
 					for (Squadron squadron : planet.getSquadrons()) {
 						squadron.showAllSpaceShip(gc);
 					}
-
+				spriteDeS.updatePosition();
+				spriteDeS.render(gc);
+					
 					
 					
 				}
