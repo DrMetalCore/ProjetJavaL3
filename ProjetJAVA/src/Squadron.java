@@ -6,7 +6,6 @@ import sun.font.GraphicComponent;
 
 public class Squadron {
 	private List<SpaceShip> shipsList;
-
 	public Squadron(List<SpaceShip> shipsList) {
 		this.shipsList = shipsList;
 	}
@@ -27,6 +26,7 @@ public class Squadron {
 			spaceShip.getSprite().render(gc);
 		}
 	}
+	
 	
 	
 }
