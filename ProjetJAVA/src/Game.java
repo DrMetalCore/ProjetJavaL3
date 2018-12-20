@@ -91,8 +91,8 @@ public class Game extends Application {
 		int defHight =401;
 		int prodLow =1;
 		int prodHight =6;
-		int type1= 1;
-		int type2 = 3;
+		//int type1= 1;
+		//int type2 = 2;
 		int planetR;
 		int defR;
 		int prodR;
@@ -119,23 +119,24 @@ public class Game extends Application {
 			planetR = r.nextInt(high-low) + low;
 			defR = r.nextInt(defHight-defLow)+defLow;
 			prodR = r.nextInt(prodHight-prodLow)+prodLow;
-			typeR = r.nextInt(type2-type1)-type2;
+			//typeR = r.nextInt(type2-type1)+type1;
 			if(i==0)
 			{
-				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetPlayer.png"), planetR, planetR,  WIDTH, HEIGHT), player));
-				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
+				PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName("ressources/PlanetPlayer.png"), planetR, planetR,  WIDTH, HEIGHT), player));
+				//PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
+				PLANETSLIST.get(i).getSprite().setPosition(600,600);
 				player.addPlanet(PLANETSLIST.get(i));
 			}
 			else if(i==1)
 			{
-				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetIA.png"), planetR, planetR,  WIDTH, HEIGHT), ia));
+				PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName("ressources/PlanetIA.png"), planetR, planetR,  WIDTH, HEIGHT), ia));
 				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
 				ia.addPlanet(PLANETSLIST.get(i));
 				PLANETSLIST.get(i).correctCollision();
 			}
 			else
 			{
-				PLANETSLIST.add(new Planet(planetR, defR, prodR, typeR, new Sprite(getRessourcePathByName("ressources/PlanetNeutral.png"), planetR, planetR, WIDTH, HEIGHT), null));
+				PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName("ressources/PlanetNeutral.png"), planetR, planetR, WIDTH, HEIGHT), null));
 				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
 				PLANETSLIST.get(i).correctCollision();
 			}
@@ -145,20 +146,18 @@ public class Game extends Application {
 				@Override
 				public void run() {
 					for (Planet planet : PLANETSLIST) {
-						planet.setDefencePow(planet.getDefencePow()+1);
+						planet.timeAugmentation();
 					}
 					
 				}
 			};
 			
-			
-			Timer timer = new Timer();
-			timer.schedule(increaseDefPow,0, 1000);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
 		//EVENTS
-		
+		Timer timer = new Timer();
+		timer.schedule(increaseDefPow,0, 1000);
 		//Mouse event
 		EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
@@ -167,7 +166,7 @@ public class Game extends Application {
 						planet.isValid();
 					}
 					else if(SELECTED.size()==2) {
-						planet.nbOfSpaceShipBox(primaryStage);
+						SELECTED.get(0).nbOfSpaceShipBox(primaryStage);
 						SELECTED.clear();
 					}
 				}
@@ -218,9 +217,8 @@ public class Game extends Application {
 						gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 
 					}
-					for (Squadron squadron : planet.getSquadrons()) {
-						squadron.showAllSpaceShip(gc);
-					}
+					if (planet.getSquadronReady()>=0)
+						planet.getSquadrons().get(planet.getSquadronReady()).showAllSpaceShip(gc);
 
 					
 					
