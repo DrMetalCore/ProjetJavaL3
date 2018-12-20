@@ -166,7 +166,7 @@ public class Game extends Application {
 						planet.isValid();
 					}
 					else if(SELECTED.size()==2) {
-						SELECTED.get(0).nbOfSpaceShipBox(primaryStage);
+						SELECTED.get(0).nbOfSpaceShipBox(primaryStage, SELECTED.get(1));
 						SELECTED.clear();
 					}
 				}
