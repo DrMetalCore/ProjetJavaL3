@@ -32,6 +32,34 @@ public class SpaceShip {
 		return speed;
 	}
 	
+	public double[] vector(Planet p) {
+		double tab[] = {0,0};
+		tab[0]= p.getSprite().getX() - this.getSprite().getX();
+		tab[1]= p.getSprite().getY() - this.getSprite().getY();
+		return tab;
+	}
 	
+	public void spaceShipToPlanet (double[] tab) {
+		this.getSprite().setSpeed(tab[0]/3, tab[1]/3);
+	}
+	
+	public boolean spaceShipOnPlanet(Planet planetDestination) {
+		if (this.getSprite().distance(planetDestination.getSprite().getX(), planetDestination.getSprite().getY())<100) {
+			return true ;
+		}
+		return false;
+	}
+	
+	public void dodgePlanet(List<Planet> planetList) {
+		for ( Planet planet : planetList) {
+			if ((planet.getSprite().distance(this.getSprite().getX(), this.getSprite().getY())) == 100) {
+				System.out.println(planet);
+				this.getSprite().setSpeed(this.getSprite().getX() - this.getSprite().getXspeed()*Math.sin(Math.toRadians(180)), this.getSprite().getY() - this.getSprite().getYspeed()*Math.cos(Math.toRadians(180))); // cos et sinus..
+				
+			}
+		}
+		
+		
+	}// marche pas encore
 	
 }
