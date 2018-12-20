@@ -20,10 +20,10 @@ public class Squadron {
 	
 	public void showAllSpaceShip(GraphicsContext gc)
 	{
-		for (SpaceShip spaceShip : shipsList) {
-			
-			spaceShip.getSprite().updatePosition();
-			spaceShip.getSprite().render(gc);
+		for (int i = 0; i<this.shipsList.size();i++) {
+
+			//this.shipsList.get(i).getSprite().updatePosition();
+			this.shipsList.get(i).getSprite().render(gc);
 		}
 	}
 	
