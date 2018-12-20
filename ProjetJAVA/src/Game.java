@@ -51,6 +51,7 @@ public class Game extends Application {
 	}
 	public static void main(String [] args) {
 		Application.launch(Game.class,args);
+		
 	}
 	
 	public static int getWidth() {
@@ -207,6 +208,7 @@ public class Game extends Application {
 				Iterator<Planet> it = PLANETSLIST.iterator();
 				while (it.hasNext()) {
 					Planet planet = it.next();
+					
 					planet.getSprite().updatePosition();
 					planet.getSprite().render(gc);
 					double radius =  (planet.getSprite().width())/2;
@@ -217,8 +219,9 @@ public class Game extends Application {
 						gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 
 					}
-					if (planet.getSquadronReady()>=0)
-						planet.getSquadrons().get(planet.getSquadronReady()).showAllSpaceShip(gc);
+					for (Squadron s : planet.getSquadrons()) {
+						s.showAllSpaceShip(gc);
+					}
 
 					
 					
