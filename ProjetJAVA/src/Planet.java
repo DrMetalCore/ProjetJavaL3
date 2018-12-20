@@ -105,7 +105,7 @@ public class Planet {
 				this.sprite == p.sprite) return true;
 		else return false;
 	}
-	public boolean generateSpaceShips(Stage window, TextField field)
+	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
 	{
 		try {
 			
@@ -114,7 +114,7 @@ public class Planet {
 			{
 			window.close();
 			int j = 0;
-			Squadron sq = new Squadron();
+			Squadron sq = new Squadron(planetDestination);
 			for (int i = 0; i < (nbOfSpaceshipToSend*this.defencePow+18)/100; i++) {
 				SpaceShip sp = new SpaceShip(this.typeProducted);
 				double[] spaceShipPositions = generatePointInOrbit(j*20);
@@ -138,7 +138,7 @@ public class Planet {
 			return false;
 		}
 	}
-	public void nbOfSpaceShipBox(Stage primaryStage)
+	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination)
 	{
 		
 		Label secondLabel = new Label("Combien de vaisseaux voulez vous envoyer ? (en %)");
@@ -156,7 +156,7 @@ public class Planet {
         newWindow.setTitle("Invasion");
         newWindow.setScene(secondScene);
         
-        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip));
+        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip, planetDestination));
         // Set position of second window, related to primary window.
         newWindow.setX(primaryStage.getX() + 200);
         newWindow.setY(primaryStage.getY() + 100);
