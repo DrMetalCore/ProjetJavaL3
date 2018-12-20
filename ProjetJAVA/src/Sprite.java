@@ -68,7 +68,7 @@ public class Sprite {
 	public void setPosition(double x, double y) {
 		this.x = x;
 		this.y = y;
-		validatePosition();
+		//validatePosition();
 	}
 
 	public void setSpeed(double xSpeed, double ySpeed) {
