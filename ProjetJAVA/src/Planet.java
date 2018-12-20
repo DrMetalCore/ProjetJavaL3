@@ -169,6 +169,6 @@ public class Planet {
 		SpaceShip s = new SpaceShip(this.typeProducted);
 		s.getSprite().setPosition(x-s.getSprite().height()/2, y-s.getSprite().height()/2);
 		s.getSprite().setSpeed(10, 10);
-		return s;
+		return s; 
 	}
 }
