@@ -15,7 +15,6 @@ public class Planet {
 	private Player owner;
 	private int nbOfSpaceshipToSend;
 	private boolean selectedAndValid;
-	private int squadronReady;
 	private List<Squadron> squadrons;
 	
 	public Planet(int diameter, int defencePow, int prodRate, int typeProducted, Sprite sprite, Player owner) {
@@ -28,7 +27,6 @@ public class Planet {
 		this.owner = owner;
 		this.nbOfSpaceshipToSend = 0;
 		this.selectedAndValid = false;
-		this.squadronReady = -1;
 		this.squadrons = new ArrayList<Squadron>();
 	}
 	public int getDefencePow() {
@@ -37,14 +35,7 @@ public class Planet {
 	public Sprite getSprite() {
 		return sprite;
 	}
-	
-	public int getSquadronReady() {
-		return squadronReady;
-	}
-	
-	protected void setSquadronReady(int squadronReady) {
-		this.squadronReady = squadronReady;
-	}
+
 	public List<Squadron> getSquadrons() {
 		return squadrons;
 	}
@@ -116,18 +107,14 @@ public class Planet {
 			int j = 0;
 			Squadron sq = new Squadron();
 			for (int i = 0; i < (nbOfSpaceshipToSend*this.defencePow+18)/100; i++) {
-				SpaceShip sp = new SpaceShip(this.typeProducted);
-				double[] spaceShipPositions = generatePointInOrbit(j*20);
-				sp.getSprite().setPosition(spaceShipPositions[0], spaceShipPositions[1]);
-				//sp.getSprite().setPosition(200, 200);
-		
+				SpaceShip sp = generatePointInOrbit(j*18);
+				
 				sq.addSpaceShip(sp);
 
 				this.defencePow = this.defencePow - sp.getAttak();
 				j++;
 			}
 			this.squadrons.add(sq);
-			this.squadronReady =this.squadrons.indexOf(sq);
 			return true;
 			}
 			else {
@@ -163,18 +150,25 @@ public class Planet {
 
         newWindow.show();
 	}
-	public double[] generatePointInOrbit(double angleDeg) {
-		double[] point = new double[2];
+	public SpaceShip generatePointInOrbit(double angleDeg) {
+		
 		double angleRad = Math.toRadians(angleDeg);
 		double radius =  (this.getSprite().width())/2;
 		
 		double centerX = this.sprite.getX() + radius ;
 		double centerY = this.sprite.getY() + radius ;
-		double x = (centerX + radius * Math.cos(angleRad));
-		double y = (centerY + radius * Math.sin(angleRad));
-	
-		point[0] = x;
-		point[1] = y;
-		return point;
+		double x = centerX + (radius + 20) * Math.cos(angleRad);
+		double y = centerY + (radius + 20) * Math.sin(angleRad);
+		System.out.println("/////////////////");
+		System.out.println(x);
+		System.out.println(y);
+		System.out.println(angleDeg);
+		System.out.println("/////////////////");
+
+		
+		SpaceShip s = new SpaceShip(this.typeProducted);
+		s.getSprite().setPosition(x-s.getSprite().height()/2, y-s.getSprite().height()/2);
+		s.getSprite().setSpeed(10, 10);
+		return s;
 	}
 }
