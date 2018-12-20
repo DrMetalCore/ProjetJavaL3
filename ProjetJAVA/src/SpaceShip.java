@@ -25,6 +25,13 @@ public class SpaceShip {
 	public Sprite getSprite() {
 		return sprite;
 	}
+	public int getAttak() {
+		return attak;
+	}
+	public int getSpeed() {
+		return speed;
+	}
+	
 	
 	
 }
