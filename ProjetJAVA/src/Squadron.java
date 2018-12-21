@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import sun.font.GraphicComponent;
 /**
- * 
+ * Class that describ a squadron
  * @author Luka Moraiz and Clément Brandel
  * @version 1
  */
