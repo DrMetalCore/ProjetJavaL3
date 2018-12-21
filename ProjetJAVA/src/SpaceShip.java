@@ -11,7 +11,7 @@ public class SpaceShip implements Serializable{
 	private int speed,prodTime,attak,type;
 	private Sprite sprite;
 	/** create a SpaceShip object with a type
-	* the type define some property like speed , attak , production's time and sprite.
+	* @param type     the type define some property like speed , attak , production's time and sprite.
 	* @version 1
 	*/
 	public SpaceShip(int type) {
@@ -80,12 +80,12 @@ public class SpaceShip implements Serializable{
 		return false;
 	}
 	/**
+	 * the function do a rotation of spaceship around the planet p
 	 * center of planet  = (cx,cy) 
 	 * @param cx 
 	 * @param cy
 	 * @param angle ==> angle in degrees
 	 * @param p ==> planet
-	 * the function do a rotation of spaceship around the planet p
 	 * @version 1
 	 */
 	public void pointRotation(double cx,double cy, double angle, Planet p){ // centre de la planete : (cx,cy)      // angle en degré 
