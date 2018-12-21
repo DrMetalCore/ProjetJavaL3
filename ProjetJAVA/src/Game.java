@@ -121,8 +121,6 @@ public class Game extends Application {
 		int defHight =75;
 		int prodLow =1;
 		int prodHight =6;
-		//int type1= 1;
-		//int type2 = 2;
 		int planetR;
 		int defR;
 		int prodR;
@@ -131,7 +129,6 @@ public class Game extends Application {
 		planetR = r.nextInt(high-low) + low;
 		defR = r.nextInt(defHight-defLow)+defLow;
 		prodR = r.nextInt(prodHight-prodLow)+prodLow;
-		//typeR = r.nextInt(type2-type1)+type1;
 		String imagePath = "";
 		if(i==0) imagePath = "ressources/PlanetPlayer.png";
 		else if(i==1) imagePath = "ressources/PlanetIA.png";
@@ -159,8 +156,6 @@ public class Game extends Application {
         
         Scene secondScene = new Scene(secondaryLayout, 350, 125);
         
-        
-        // New window (Stage)
         Stage newWindow = new Stage();
         newWindow.setTitle("Veux tu ");
         newWindow.setScene(secondScene);
@@ -168,7 +163,6 @@ public class Game extends Application {
         yesButton.setOnAction( e -> this.loadASave( newWindow));
         noButton.setOnAction( e -> this.noLoadASave( newWindow));
 
-        // Set position of second window, related to primary window.
         newWindow.setX(primaryStage.getX() + 200);
         newWindow.setY(primaryStage.getY() + 100);
 
@@ -200,7 +194,6 @@ public class Game extends Application {
 					
 			} 
 			catch (IOException | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -213,7 +206,7 @@ public class Game extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		// TODO Auto-generated method stub
+	
 		primaryStage.setTitle("IA vs HUMAN");
 		primaryStage.setResizable(false);
 
@@ -299,10 +292,10 @@ public class Game extends Application {
 					
 				} 
 		    	catch (FileNotFoundException e1) {
-					// TODO Auto-generated catch block
+				
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
 		    	
