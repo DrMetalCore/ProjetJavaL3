@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Class that describe a player
  * @author Luka Moraiz et Clément Brandel
- * 
+ * @version 1
  */
 public class Player implements Serializable{
 
@@ -15,6 +15,7 @@ public class Player implements Serializable{
 	/**
 	 * Create a player object with a name
 	 * @param name player's name
+	 * @version 1
 	 */
 	public Player(String name) {
 		this.name = name;
@@ -22,6 +23,7 @@ public class Player implements Serializable{
 	/**
 	 * Add a planet to player's planets list
 	 * @param pl planet to add
+	 * @version 1
 	 */
 	public void addPlanet(Planet pl) {
 		planets.add(pl);
@@ -30,6 +32,7 @@ public class Player implements Serializable{
 	 * Test if the player control a planet
 	 * @param p planet to test
 	 * @return true if he control it false otherwise
+	 * @version 1
 	 */
 	public boolean havePlanet(Planet p)
 	{
@@ -38,7 +41,7 @@ public class Player implements Serializable{
 	}
 	/**
 	 * Allow the IA to automaticly attack an other planet
-	 * 
+	 * @version 1
 	 */
 	public void automaticAttak()
 	{
