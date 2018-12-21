@@ -78,7 +78,7 @@ public class Planet implements Serializable{
 	/**
 	 * 
 	 * @param p2  ==> planet
-	 * @return true if no superposition between planet , false otherwise
+	 * @return true if no superposition between planets , false otherwise
 	 */
 	public boolean planetCollision(Planet p2)
 	{
@@ -91,7 +91,10 @@ public class Planet implements Serializable{
 		}
 		else return false;
 	}
-	
+	/**
+	* correct if there is a superposition between planets
+	*
+	*/
 	public void correctCollision()
 	{
 		for (int i = 0; i<Game.getPlanetslist().size()-1; i++)
@@ -103,7 +106,10 @@ public class Planet implements Serializable{
 			}
 		}
 	}
-	
+	/**
+	* defencePow's planet increase
+	*
+	*/
 	public void timeAugmentation()
 	{
 		this.defencePow++;
@@ -119,6 +125,12 @@ public class Planet implements Serializable{
 		if(Math.sqrt(Math.pow(x-(this.getSprite().getX()+this.getSprite().width()/2), 2)+Math.pow(y-(this.getSprite().getY()+this.getSprite().width()/2), 2))<this.getSprite().width()/2) return true;
 		else return false;
 	}
+	
+	/**
+	* true if the planet selected can be selected to be attacked , false otherwise
+	*
+	*/
+	
 	public void isValid()
 	{
 
@@ -149,10 +161,10 @@ public class Planet implements Serializable{
 	
 	/**
 	 * 
-	 * @param window 
-	 * @param field     ==> text
+	 * @param window  ==> create a window
+	 * @param field   ==> text
 	 * @param planetDestination ==> destination's planet
-	 * @return 
+	 * @return true if squadron of spaceships are created, false otherwise
 	 */
 	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
 	{
@@ -188,8 +200,9 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * 
-	 * @param numberSpaceShip 
-	 * @param planetDestination
+	 * @param numberSpaceShip ==> the number of spaceship
+	 * @param planetDestination ==> planet of destination
+	 * 
 	 */
 	public void generateSpaceShips(int numberSpaceShip, Planet planetDestination)
 	{
@@ -214,8 +227,9 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * 
-	 * @param primaryStage
-	 * @param planetDestination
+	 * @param primaryStage ==> primary stage
+	 * @param planetDestination ==> planet of destination
+	 * ask the number of spaceship to deploy on other planet 
 	 */
 	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination)
 	{
@@ -245,7 +259,7 @@ public class Planet implements Serializable{
 	/**
 	 * 
 	 * @param angleDeg angles in degrees
-	 * @return spaceship 
+	 * @return point on orbit of planet
 	 */
 	public SpaceShip generatePointInOrbit(double angleDeg) {
 		
