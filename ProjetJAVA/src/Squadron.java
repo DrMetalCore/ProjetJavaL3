@@ -3,25 +3,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
-/*import sun.font.GraphicComponent;*/
+import sun.font.GraphicComponent;
 /**
  * 
  * @author Luka Moraiz and Clément Brandel
- *
+ * 
  */
 public class Squadron implements Serializable{
 	private ArrayList<SpaceShip> shipsList;
 	private Planet planetDestination;
 	/**
 	 * 
-	 * @param shipsList ==> list of spaceship
+	 * @param shipsList  list of spaceship
+	 * create a Squadron object
+	 * @version 1
 	 */
 	public Squadron(ArrayList<SpaceShip> shipsList) {
 		this.shipsList = shipsList;
 	}
 	/**
 	 * 
-	 * @param planetDestination ==> planet of destination
+	 * @param planetDestination  planet of destination
+	 * create a Squadron of object with a Planet of destination
+	 * @version 1
 	 */
 	public Squadron(Planet planetDestination) {
 		this.shipsList = new ArrayList<SpaceShip>();
@@ -29,15 +33,17 @@ public class Squadron implements Serializable{
 	}
 	/**
 	 * 
-	 * @param s ==> spaceship for add to shipsList
+	 * @param s  spaceship for add to shipsList
+	 * @version 1
 	 */
 	public void addSpaceShip(SpaceShip s)
 	{
 		this.shipsList.add(s);
 	}
 	/**
-	 * 
-	 * @param gc
+	 * create all spaceship of squadron and they go on the planet of destination
+	 * @param gc the context graphics of the window 
+	 * @version 1
 	 */
 	public void showAllSpaceShip(GraphicsContext gc)
 	{
