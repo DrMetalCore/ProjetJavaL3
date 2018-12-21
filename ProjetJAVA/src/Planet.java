@@ -99,7 +99,7 @@ public class Planet implements Serializable{
 				this.sprite == p.sprite) return true;
 		else return false;
 	}
-	public boolean generateSpaceShips(Stage window, TextField field)
+	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
 	{
 		try {
 			
@@ -108,7 +108,7 @@ public class Planet implements Serializable{
 			{
 			window.close();
 			int j = 0;
-			Squadron sq = new Squadron();
+			Squadron sq = new Squadron(planetDestination);
 			int realNumOfSpaceShipToSend = (nbOfSpaceshipToSend*this.defencePow)/100;
 			System.out.println(realNumOfSpaceShipToSend);
 			for (int i = 0; i < realNumOfSpaceShipToSend; i++) {
@@ -131,13 +131,13 @@ public class Planet implements Serializable{
 			return false;
 		}
 	}
-	public void generateSpaceShips(int numberSpaceShip)
+	public void generateSpaceShips(int numberSpaceShip, Planet planetDestination)
 	{
 		this.nbOfSpaceshipToSend = numberSpaceShip;
 			if(this.nbOfSpaceshipToSend >= 0 && this.nbOfSpaceshipToSend<=100)
 			{
 			int j = 0;
-			Squadron sq = new Squadron();
+			Squadron sq = new Squadron(planetDestination);
 			int realNumOfSpaceShipToSend = (nbOfSpaceshipToSend*this.defencePow)/100;
 			for (int i = 0; i < realNumOfSpaceShipToSend; i++) {
 				SpaceShip sp = generatePointInOrbit(j*18);
@@ -152,7 +152,7 @@ public class Planet implements Serializable{
 			
 		
 	}
-	public void nbOfSpaceShipBox(Stage primaryStage)
+	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination)
 	{
 		
 		Label secondLabel = new Label("Combien de vaisseaux voulez vous envoyer ? (en %)");
@@ -170,7 +170,7 @@ public class Planet implements Serializable{
         newWindow.setTitle("Invasion");
         newWindow.setScene(secondScene);
         
-        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip));
+        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip, planetDestination));
         // Set position of second window, related to primary window.
         newWindow.setX(primaryStage.getX() + 200);
         newWindow.setY(primaryStage.getY() + 100);
@@ -188,7 +188,7 @@ public class Planet implements Serializable{
 		double y = centerY + (radius + 20) * Math.sin(angleRad);
 		SpaceShip s = new SpaceShip(this.typeProducted);
 		s.getSprite().setPosition(x-s.getSprite().height()/2, y-s.getSprite().height()/2);
-
+		s.getSprite().setSpeed(1, 1);
 		return s;
 	}
 }
