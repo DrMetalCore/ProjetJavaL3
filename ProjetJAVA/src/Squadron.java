@@ -7,14 +7,17 @@ import sun.font.GraphicComponent;
 public class Squadron {
 	private List<SpaceShip> shipsList;
 	private Planet planetDestination;
+	private List<Planet> planetsList;
 	
-	public Squadron(List<SpaceShip> shipsList, Planet planetDestination) {
+	public Squadron(List<SpaceShip> shipsList, Planet planetDestination, List<Planet> planetsList) {
 		this.shipsList = shipsList;
 		this.planetDestination = planetDestination;
+		this.planetsList = planetsList;
 	}
-	public Squadron(Planet planetDestination) {
+	public Squadron(Planet planetDestination,List<Planet> planetsList) {
 		this.shipsList = new ArrayList<SpaceShip>();
 		this.planetDestination = planetDestination;
+		this.planetsList = planetsList;
 	}
 	
 	public void addSpaceShip(SpaceShip s)
