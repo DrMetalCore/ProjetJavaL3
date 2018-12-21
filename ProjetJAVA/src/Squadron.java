@@ -1,30 +1,44 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
-import sun.font.GraphicComponent;
-
-public class Squadron {
-	private List<SpaceShip> shipsList;
+/*import sun.font.GraphicComponent;*/
+/**
+ * 
+ * @author Luka Moraiz and Clément Brandel
+ *
+ */
+public class Squadron implements Serializable{
+	private ArrayList<SpaceShip> shipsList;
 	private Planet planetDestination;
-	private List<Planet> planetsList;
-	
-	public Squadron(List<SpaceShip> shipsList, Planet planetDestination, List<Planet> planetsList) {
+	/**
+	 * 
+	 * @param shipsList ==> list of spaceship
+	 */
+	public Squadron(ArrayList<SpaceShip> shipsList) {
 		this.shipsList = shipsList;
-		this.planetDestination = planetDestination;
-		this.planetsList = planetsList;
 	}
-	public Squadron(Planet planetDestination,List<Planet> planetsList) {
+	/**
+	 * 
+	 * @param planetDestination ==> planet of destination
+	 */
+	public Squadron(Planet planetDestination) {
 		this.shipsList = new ArrayList<SpaceShip>();
 		this.planetDestination = planetDestination;
-		this.planetsList = planetsList;
 	}
-	
+	/**
+	 * 
+	 * @param s ==> spaceship for add to shipsList
+	 */
 	public void addSpaceShip(SpaceShip s)
 	{
 		this.shipsList.add(s);
 	}
-	
+	/**
+	 * 
+	 * @param gc
+	 */
 	public void showAllSpaceShip(GraphicsContext gc)
 	{
 		for (SpaceShip spaceShip : shipsList) {
@@ -32,22 +46,22 @@ public class Squadron {
 			System.out.println(planetDestination);
 			
 			spaceShip.spaceShipToPlanet(spaceShip.getSprite().vectorSpaceShipToPlanet(spaceShip.vector(this.planetDestination)));
-			
-			/*for ( Planet planet : planetsList ) {
+			/*
+			for ( Planet planet : Game.getPlanetslist()) {
 				
 				if  ((planet.getSprite().distance(spaceShip.getSprite().getX(), spaceShip.getSprite().getY())) < 100) {
 					
-					spaceShip.pointRotation(planet.getSprite().getX() , planet.getSprite().getY() , 12);
+					spaceShip.pointRotation(planet.getSprite().getX() , planet.getSprite().getY() , 12, planet);
 					
 				}
-			}*/
-			
+			}
+			*/
 			if (spaceShip.spaceShipOnPlanet(planetDestination) == true ) {
 				shipsList.remove(spaceShip);
 			}
 			spaceShip.getSprite().updatePosition();
 			spaceShip.getSprite().render(gc);
-		}
+}
 	}
 	
 	
