@@ -53,8 +53,8 @@ public class SpaceShip implements Serializable{
 	}
 	/**
 	 * 
-	 * @param p ==> planet 
-	 * @return vector(spaceship, planet p )
+	 * @param p   take position of the planet p     
+	 * @return  a vector(spaceship to planet)
 	 */
 	public double[] vector(Planet p) {
 		double tab[] = {0,0};
@@ -64,14 +64,15 @@ public class SpaceShip implements Serializable{
 	}
 	/**
 	 * 
-	 * @param tab ==> tab with vector
+	 * @param tab  tab include vector in tab[0] and tab[1]
+	 * give speed to spaceship for planet
 	 */
 	public void spaceShipToPlanet (double[] tab) {
 		this.getSprite().setSpeed(tab[0]/3, tab[1]/3);
 	}
 	/**
 	 * 
-	 * @param planetDestination ==> spaceship go there 
+	 * @param planetDestination     spaceship go on planetDestination
 	 * @return true if spaceship is on the planetDestination, false otherwise
 	 */
 	public boolean spaceShipOnPlanet(Planet planetDestination) {
@@ -81,11 +82,12 @@ public class SpaceShip implements Serializable{
 		return false;
 	}
 	/**
-	 * center of planet  == (cx,cy)
+	 * center of planet  = (cx,cy) 
 	 * @param cx 
 	 * @param cy
 	 * @param angle ==> angle in degrees
 	 * @param p ==> planet
+	 * the function do a rotation of spaceship around the planet p
 	 */
 	public void pointRotation(double cx,double cy, double angle, Planet p){ // centre de la planete : (cx,cy)      // angle en degré 
 		double dirP1 = Math.atan2(cy - this.getSprite().getY(), cx-this.getSprite().getX()); 
