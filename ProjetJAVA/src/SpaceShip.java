@@ -63,14 +63,18 @@ public class SpaceShip {
 	}// marche pas encore
 	
 	public void pointRotation(double cx,double cy, double angle){ // centre de la planete : (cx,cy)      // angle en degré 
-		
-	 	double dirP1 = Math.atan2(cy - this.getSprite().getY(), cx-this.getSprite().getX()); 
+		double dirP1 = Math.atan2(cy - this.getSprite().getY(), cx-this.getSprite().getX()); 
 	   
 	 	double dirP2 = dirP1 + angle; 
 	   
 	 	double dist = this.getSprite().distance(cx, cy); 
-	 	
-	 	this.getSprite().setPosition((cx + dist*Math.cos(dirP2)), (int)(cy + dist*Math.sin(dirP2)));
-	 	
+	 	if (this.getSprite().distance(p.getSprite().getX(), p.getSprite().getY()) <  p.getSprite().distance(cx, cy)){
+	 		this.spaceShipToPlanet(this.getSprite().vectorSpaceShipToPlanet(this.vector(p)));
+	 	}
+	 	else {
+	 		/*this.getSprite().setPosition((cx + dist*Math.cos(dirP2)), (int)(cy + dist*Math.sin(dirP2)));*/
+	 		this.getSprite().setPosition((cx + dist*Math.cos(dirP2)), (int)(cy + dist*Math.sin(dirP2)));
+	 	}
+	 
 	 } 
 }
