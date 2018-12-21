@@ -48,7 +48,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
- * 
+ * Main class that run the program
  * @author Luka Moraiz et Clément Brandel
  * 
  *
@@ -66,12 +66,17 @@ public class Game extends Application {
 	/**
 	 * 
 	 * @param name
-	 * @return
+	 * @return the path of the ressource
 	 */
 	public static String getRessourcePathByName(String name) {
 		return Game.class.getResource('/' + name).toString();
 	}
 	
+	/**
+	 * Lauch the program
+	 * @param args arguments of the program
+	 * 
+	 */
 	public static void main(String [] args) {
 		Application.launch(Game.class,args);
 		
@@ -101,9 +106,9 @@ public class Game extends Application {
 		return ia;
 	}
 	/**
-	 * 
-	 * @param p    player
-	 * @param i	   number of planets
+	 * Create a planet for a player
+	 * @param p   player that will onw the planet
+	 * @param i   position of the planet i the arrayList PLANETSLIST
 	 */
 	public void generatePlanet(Player p, int i)
 	{
@@ -136,8 +141,8 @@ public class Game extends Application {
 		
 	}
 	/**
-	 * 
-	 * @param primaryStage
+	 * Create a dialogue box that demand to the user if he want to load a save
+	 * @param primaryStage main stage of the program
 	 */
 	public void LoadASaveBox(Stage primaryStage)
 	{
@@ -154,7 +159,7 @@ public class Game extends Application {
         
         // New window (Stage)
         Stage newWindow = new Stage();
-        newWindow.setTitle("Invasion");
+        newWindow.setTitle("Veux tu ");
         newWindow.setScene(secondScene);
         
         yesButton.setOnAction( e -> this.loadASave( newWindow));
@@ -167,14 +172,16 @@ public class Game extends Application {
         newWindow.show();
 	}
 	/**
-	 * @param newWindow   
+	 * function use when the user don't load a save
+	 * @param newWindow dialogue box that demand to the user if he want to load a save
 	 * 
 	 */
 	private void noLoadASave(Stage newWindow) {
 		newWindow.close();
 	}
 	/**
-	 * @param newWindow
+	 * function use when the user load a save
+	 * @param newWindow dialogue box that demand to the user if he want to load a save
 	 *   
 	 */
 	private void loadASave(Stage newWindow) {
@@ -195,6 +202,11 @@ public class Game extends Application {
 			}
 
 	}
+	/**
+	 * Start function that manage all the program
+	 * @param primaryStage main stage 
+	 * @throws Exception
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		// TODO Auto-generated method stub
@@ -235,7 +247,10 @@ public class Game extends Application {
 			}
 		}
 			TimerTask increaseDefPow = new TimerTask() {
-				
+				/**
+				 * Function that augment planets point every seconds
+				 * 
+				 */
 				@Override
 				public void run() {
 					for (Planet planet : PLANETSLIST) {
@@ -246,7 +261,10 @@ public class Game extends Application {
 			};
 			
 			TimerTask autoAttakTimer = new TimerTask() {
-				
+				/**
+				 * Function that allow the IA to attack other planet 5 seconds after the start of the game and then every 7 seconds
+				 * 
+				 */
 				@Override
 				public void run() {
 					ia.automaticAttak();
@@ -289,6 +307,8 @@ public class Game extends Application {
 		    });
 		
 		//EVENTS
+		
+		//Timer Events
 		Timer timer = new Timer();
 		timer.schedule(increaseDefPow,0, 1000);
 		
@@ -296,9 +316,11 @@ public class Game extends Application {
 		IATimer.schedule(autoAttakTimer,5000, 7000);
 
 		//Mouse event
-		
-		 
 		EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
+			/**
+				 * Function manage the selection of 2 planets in order to launch an attack
+				 * 
+				 */
 			public void handle(MouseEvent e) {
 				for (Planet planet : PLANETSLIST) {
 					if (planet.isSelected(e.getX(), e.getSceneY())){
@@ -317,30 +339,12 @@ public class Game extends Application {
 		scene.setOnMousePressed(mouseHandler);
 		
 		new AnimationTimer() {
+			/**
+			* Function handle the display all the animations
+			* 
+			*/
 			public void handle(long arg0) {
 				gc.drawImage(space, 0, 0);
-				/*
-				spaceship.updatePosition();
-				Iterator<Sprite> it = pinapples.iterator();
-				while (it.hasNext()) {
-					Sprite pinapple = it.next();
-					pinapple.updatePosition();
-					if (pinapple.intersects(spaceship)) {
-						it.remove();
-						if (mediaPlayerBoomFinalCopy != null) {
-							mediaPlayerBoomFinalCopy.stop();
-							mediaPlayerBoomFinalCopy.play();
-						}
-						score += 100;
-					} else {
-						pinapple.render(gc);
-						if (Math.random() > 0.995) {
-							changeSpeed(pinapple);
-						}
-					}
-				}
-				spaceship.render(gc);
-  				*/
 				Iterator<Planet> it = PLANETSLIST.iterator();
 				while (it.hasNext()) {
 					Planet planet = it.next();
