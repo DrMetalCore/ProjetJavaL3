@@ -75,6 +75,13 @@ public class Sprite implements Serializable{
 		return y;
 	}
 
+	public double getXspeed() {
+ 		return xSpeed;
+ 	}
+ 	public double getYspeed() {
+ 		return ySpeed;
+ 	}
+ 	
 	public void setPosition(double x, double y) {
 		this.x = x;
 		this.y = y;
@@ -153,4 +160,28 @@ public class Sprite implements Serializable{
 		return "Sprite<" + x + ", " + y + ">";
 	}
 
+	public double distance(double x, double y) {
+ 		/*this.x = x;
+ 		this.y = y;*/
+ 		return (Math.sqrt(Math.pow((this.getX() - x),2) + Math.pow((this.getY() - y),2)));
+ 	}
+ 
+ 	public double[] vectorSpaceShipToPlanet(double tab[]) {
+ 
+ 		while (tab[0] > 5 && tab[1] > 5) {
+ 			if (tab[0]%2 == 0) {
+ 				tab[0] = tab[0]/2;
+ 			}
+ 			else {
+ 				tab[0] = (tab[0] + 1 )/2;
+ 			}
+ 			if (tab[1]%2 == 0) {
+ 				tab[1] = tab[1]/2;
+ 			}
+ 			else {
+ 				tab[1] = (tab[1] + 1 )/2;	
+ 			}
+ 		}
+ 		return tab;
+ 	}
 }
