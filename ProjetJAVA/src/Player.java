@@ -25,9 +25,15 @@ public class Player implements Serializable{
 		Random r = new Random();
 		int numMin= 0;
 		int numMax = this.planets.size();
-		int attakingPlanet = r.nextInt(numMax-numMin)+numMin;
+		Planet attakingPlanet = this.planets.get(r.nextInt(numMax-numMin)+numMin);
 		int numberSpaceShip = r.nextInt(30-10)+10;
-		this.planets.get(attakingPlanet).generateSpaceShips(numberSpaceShip);
+		
+		numMin= 0;
+		numMax = Game.getPlanetslist().size();
+		Planet planetToAttak = Game.getPlanetslist().get(r.nextInt(numMax-numMin)+numMin);
+		while(planets.contains(planetToAttak))  planetToAttak = Game.getPlanetslist().get(r.nextInt(numMax-numMin)+numMin);
+
+		attakingPlanet.generateSpaceShips(numberSpaceShip, planetToAttak);
 		
 	}
 }
