@@ -27,7 +27,7 @@ public class Planet implements Serializable{
 	private ArrayList<Squadron> squadrons;
 	
 	/**
-	 * 
+	 *  create a Planet object with property :
 	 * @param diameter  	diameter of planet
 	 * @param defencePow	hit point of planet
 	 * @param prodRate		production's rate of spaceship
@@ -77,7 +77,7 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * 
-	 * @param p2  ==> planet
+	 * @param p2   planet
 	 * @return true if no superposition between planets , false otherwise
 	 */
 	public boolean planetCollision(Planet p2)
@@ -116,8 +116,8 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * 
-	 * @param x ==> abscissa
-	 * @param y ==> ordinate 
+	 * @param x  abscissa
+	 * @param y  ordinate 
 	 * @return true if the point (x,y) is on a planet, false otherwise.
 	 */
 	public boolean isSelected(double x, double y)
@@ -145,7 +145,7 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * 
-	 * @param p  ==> planet
+	 * @param p   planet 
 	 * @return true if the planet is equal to p, false otherwise.
 	 */
 	public boolean equals(Planet p)
@@ -161,9 +161,9 @@ public class Planet implements Serializable{
 	
 	/**
 	 * 
-	 * @param window  ==> create a window
-	 * @param field   ==> text
-	 * @param planetDestination ==> destination's planet
+	 * @param window   create a window
+	 * @param field    text
+	 * @param planetDestination  destination's planet
 	 * @return true if squadron of spaceships are created, false otherwise
 	 */
 	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
@@ -200,8 +200,8 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * 
-	 * @param numberSpaceShip ==> the number of spaceship
-	 * @param planetDestination ==> planet of destination
+	 * @param numberSpaceShip     the number of spaceship
+	 * @param planetDestination   planet of destination
 	 * 
 	 */
 	public void generateSpaceShips(int numberSpaceShip, Planet planetDestination)
