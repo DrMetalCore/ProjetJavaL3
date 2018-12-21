@@ -13,7 +13,7 @@ import javafx.scene.input.KeyCode;
 /**
  * Class that manage animations
  * @author Luka Moraiz and Clément Brandel
- *
+ * @version 1
  */
 public class Sprite implements Serializable{
 	private String imagePath;
@@ -34,6 +34,7 @@ public class Sprite implements Serializable{
 	 * @param height Height of the image when use in the game
 	 * @param maxX Maximun range of the Sprite
 	 * @param maxY	Maximun range of the Sprite
+	 * @version 1
 	 */
 	public Sprite(String path, double width, double height, double maxX, double maxY) {
 		this.imagePath = path;
@@ -63,6 +64,7 @@ public class Sprite implements Serializable{
  	}
 	/**
 	 * Validated the position of the sprite and correct if it's not valid
+	 * @version 1
 	 */
 	public void validatePosition() {
 		if (x + width >= maxX) {
@@ -86,6 +88,7 @@ public class Sprite implements Serializable{
  	 * Change the position of the sprite en then validate it
  	 * @param x position on x
  	 * @param y position on y
+	 * @version 1
  	 */
 	public void setPosition(double x, double y) {
 		this.x = x;
@@ -96,6 +99,7 @@ public class Sprite implements Serializable{
 	 * Change the speed of the sprite
 	 * @param xSpeed speed on x
 	 * @param ySpeed speed on y
+	 * @version 1
 	 */
 	public void setSpeed(double xSpeed, double ySpeed) {
 		this.xSpeed = xSpeed;
@@ -103,6 +107,7 @@ public class Sprite implements Serializable{
 	}
 	/**
 	 * Update the position of the sprite and validate it
+	 * @version 1
 	 */
 	public void updatePosition() {
 		x += xSpeed;
@@ -112,6 +117,7 @@ public class Sprite implements Serializable{
 	/** 
 	 * Show the sprite
 	 * @param gc Graphic context of the window
+	 * @version 1
 	 */
 	public void render(GraphicsContext gc) {
 		gc.drawImage(new Image(imagePath, width, height, false, false), x, y);
@@ -120,6 +126,7 @@ public class Sprite implements Serializable{
 	 * Test if 2 sprite intersects
 	 * @param s second sprite 
 	 * @return true if thier intersects flase otherwise
+	 * @version 1
 	 */
 	public boolean intersects(Sprite s) {
 		return ((x >= s.x && x <= s.x + s.width) || (s.x >= x && s.x <= x + width))
@@ -134,6 +141,7 @@ public class Sprite implements Serializable{
 	 * @param x position in x 
 	 * @param y position in y
 	 * @return the distance between the sprite and the point (x,y)
+	 * @version 1
 	 */
 	public double distance(double x, double y) {
  		return (Math.sqrt(Math.pow((this.getX() - x),2) + Math.pow((this.getY() - y),2)));
@@ -142,6 +150,7 @@ public class Sprite implements Serializable{
 	 * Reduce the vetor
 	 * @param tab tab of vector(spaceship, planet)
 	 * @return divided vector
+	 * @version 1
 	 */
  	public double[] vectorSpaceShipToPlanet(double tab[]) {
  
