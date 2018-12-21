@@ -1,10 +1,21 @@
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.sun.glass.events.WindowEvent;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -41,10 +52,10 @@ public class Game extends Application {
 	private final static int WIDTH = 1600;
 	private final static int HEIGHT = 900;
 	private final static int NBPLANETS = 6;
-	private final static List<Planet> PLANETSLIST = new ArrayList<Planet>();
-	private final static List<Planet> SELECTED = new ArrayList<Planet>();
-	private final static Player player = new Player("Player");
-	private final static Player ia = new Player("IA");
+	private static ArrayList<Planet> PLANETSLIST = new ArrayList<Planet>();
+	private final static ArrayList<Planet> SELECTED = new ArrayList<Planet>();
+	private static Player player = new Player("Player");
+	private static Player ia = new Player("IA");
 	
 	public static String getRessourcePathByName(String name) {
 		return Game.class.getResource('/' + name).toString();
@@ -63,11 +74,11 @@ public class Game extends Application {
 	public static int getNbplanets() {
 		return NBPLANETS;
 	}
-	public static List<Planet> getPlanetslist() {
+	public static ArrayList<Planet> getPlanetslist() {
 		return PLANETSLIST;
 	}
 	
-	public static List<Planet> getSelected() {
+	public static ArrayList<Planet> getSelected() {
 		return SELECTED;
 	}
 	
@@ -77,19 +88,13 @@ public class Game extends Application {
 	public static Player getIa() {
 		return ia;
 	}
-	
-	@Override
-	public void start(Stage primaryStage) throws Exception{
-		// TODO Auto-generated method stub
-		primaryStage.setTitle("IA vs HUMAN");
-		primaryStage.setResizable(false);
-
-		
+	public void generatePlanet(Player p, int i)
+	{
 		Random r = new Random();
 		int low = 125;
 		int high = 225;
-		int defLow =200;
-		int defHight =401;
+		int defLow =25;
+		int defHight =75;
 		int prodLow =1;
 		int prodHight =6;
 		//int type1= 1;
@@ -99,6 +104,74 @@ public class Game extends Application {
 		int prodR;
 		int typeR;
 		
+		planetR = r.nextInt(high-low) + low;
+		defR = r.nextInt(defHight-defLow)+defLow;
+		prodR = r.nextInt(prodHight-prodLow)+prodLow;
+		//typeR = r.nextInt(type2-type1)+type1;
+		String imagePath = "";
+		if(i==0) imagePath = "ressources/PlanetPlayer.png";
+		else if(i==1) imagePath = "ressources/PlanetIA.png";
+		else imagePath = "ressources/PlanetNeutral.png";
+		PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName(imagePath), planetR, planetR,  WIDTH, HEIGHT), p));
+		PLANETSLIST.get(i).getSprite().setPosition(WIDTH* Math.random(), HEIGHT * Math.random());
+		p.addPlanet(PLANETSLIST.get(i));
+		if(i!=0) PLANETSLIST.get(i).correctCollision();
+		
+	}
+	public void LoadASaveBox(Stage primaryStage)
+	{
+		
+		Label Label = new Label("Voulez-vous charger une ancienne sauvegarde ?");
+		Button yesButton = new Button("Oui");
+		Button noButton = new Button("Non");
+
+        VBox secondaryLayout = new VBox(10);
+        secondaryLayout.getChildren().addAll(Label,yesButton,noButton);
+        
+        Scene secondScene = new Scene(secondaryLayout, 350, 125);
+        
+        
+        // New window (Stage)
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Invasion");
+        newWindow.setScene(secondScene);
+        
+        yesButton.setOnAction( e -> this.loadASave( newWindow));
+        noButton.setOnAction( e -> this.noLoadASave( newWindow));
+
+        // Set position of second window, related to primary window.
+        newWindow.setX(primaryStage.getX() + 200);
+        newWindow.setY(primaryStage.getY() + 100);
+
+        newWindow.show();
+	}
+	private void noLoadASave(Stage newWindow) {
+		newWindow.close();
+	}
+	private void loadASave(Stage newWindow) {
+		newWindow.close();
+		
+		
+			ObjectInputStream objectSave;
+			try {
+				objectSave = new ObjectInputStream(new FileInputStream("save.txt"));
+				player = (Player) objectSave.readObject();
+				ia = (Player) objectSave.readObject();
+				PLANETSLIST = (ArrayList<Planet>) objectSave.readObject();
+					
+			} 
+			catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+	}
+	@Override
+	public void start(Stage primaryStage) throws Exception{
+		// TODO Auto-generated method stub
+		primaryStage.setTitle("IA vs HUMAN");
+		primaryStage.setResizable(false);
+
 		
 		Group root = new Group();
 		Scene scene = new Scene(root,WIDTH,HEIGHT,Color.LIGHTBLUE);
@@ -117,29 +190,19 @@ public class Game extends Application {
 
 		
 		for (int i = 0; i < NBPLANETS; i++) {
-			planetR = r.nextInt(high-low) + low;
-			defR = r.nextInt(defHight-defLow)+defLow;
-			prodR = r.nextInt(prodHight-prodLow)+prodLow;
-			//typeR = r.nextInt(type2-type1)+type1;
+			
 			if(i==0)
 			{
-				PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName("ressources/PlanetPlayer.png"), planetR, planetR,  WIDTH, HEIGHT), player));
-				//PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				PLANETSLIST.get(i).getSprite().setPosition(600,600);
-				player.addPlanet(PLANETSLIST.get(i));
+				generatePlanet(player, i);
 			}
 			else if(i==1)
 			{
-				PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName("ressources/PlanetIA.png"), planetR, planetR,  WIDTH, HEIGHT), ia));
-				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				ia.addPlanet(PLANETSLIST.get(i));
-				PLANETSLIST.get(i).correctCollision();
+				generatePlanet(ia, i);
+
 			}
 			else
 			{
-				PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName("ressources/PlanetNeutral.png"), planetR, planetR, WIDTH, HEIGHT), null));
-				PLANETSLIST.get(i).getSprite().setPosition(WIDTH * Math.random(), HEIGHT * Math.random());
-				PLANETSLIST.get(i).correctCollision();
+				generatePlanet(null, i);
 			}
 		}
 			TimerTask increaseDefPow = new TimerTask() {
@@ -153,12 +216,51 @@ public class Game extends Application {
 				}
 			};
 			
+			TimerTask autoAttakTimer = new TimerTask() {
+				
+				@Override
+				public void run() {
+					ia.automaticAttak();
+					
+				}
+			};
+			
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		LoadASaveBox(primaryStage);
+		 primaryStage.setOnCloseRequest( event ->
+		    {
+		    	try {
+					ObjectOutputStream objectSave = new ObjectOutputStream(new FileOutputStream("save.txt"));
+					objectSave.writeObject(player);
+					objectSave.writeObject(ia);
+					objectSave.writeObject(PLANETSLIST);
+					
+					objectSave.close();
+					
+					
+					
+					
+				} 
+		    	catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    	
+		        primaryStage.close();
+		    
+		    });
 		
 		//EVENTS
 		Timer timer = new Timer();
 		timer.schedule(increaseDefPow,0, 1000);
+		
+		Timer IATimer = new Timer();
+		IATimer.schedule(autoAttakTimer,5000, 7000);
+
 		//Mouse event
 		EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent e) {
@@ -174,7 +276,7 @@ public class Game extends Application {
 			}
 		};
 		
-
+		
 		scene.setOnMouseDragged(mouseHandler);
 		scene.setOnMousePressed(mouseHandler);
 		
@@ -219,10 +321,11 @@ public class Game extends Application {
 						gc.strokeText(planet.getDefencePow()+"", planet.getSprite().getX() + radius ,planet.getSprite().getY() + radius+10);
 
 					}
+					
 					for (Squadron s : planet.getSquadrons()) {
 						s.showAllSpaceShip(gc);
 					}
-
+					
 					
 					
 				}
