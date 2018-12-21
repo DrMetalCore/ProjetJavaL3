@@ -156,7 +156,7 @@ public class Planet {
         newWindow.setTitle("Invasion");
         newWindow.setScene(secondScene);
         
-        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip, planetDestination));
+        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip, planetDestination,  planetsList));
         // Set position of second window, related to primary window.
         newWindow.setX(primaryStage.getX() + 200);
         newWindow.setY(primaryStage.getY() + 100);
