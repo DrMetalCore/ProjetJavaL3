@@ -105,7 +105,7 @@ public class Planet {
 				this.sprite == p.sprite) return true;
 		else return false;
 	}
-	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
+	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination, List<Planet> planetsList )
 	{
 		try {
 			
@@ -114,7 +114,7 @@ public class Planet {
 			{
 			window.close();
 			int j = 0;
-			Squadron sq = new Squadron(planetDestination);
+			Squadron sq = new Squadron(planetDestination,  planetsList);
 			for (int i = 0; i < (nbOfSpaceshipToSend*this.defencePow+18)/100; i++) {
 				SpaceShip sp = new SpaceShip(this.typeProducted);
 				double[] spaceShipPositions = generatePointInOrbit(j*20);
@@ -138,7 +138,7 @@ public class Planet {
 			return false;
 		}
 	}
-	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination)
+	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination, List<Planet> planetsList)
 	{
 		
 		Label secondLabel = new Label("Combien de vaisseaux voulez vous envoyer ? (en %)");
