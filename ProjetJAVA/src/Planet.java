@@ -222,7 +222,7 @@ public class Planet implements Serializable{
 	}
 	/**
 	 * ask the number of spaceship to deploy on other planet 
-	 * @param primaryStage    
+	 * @param primaryStage     main stage of the program
 	 * @param planetDestination   planet of destination
 	 * @version 1 
 	 */
