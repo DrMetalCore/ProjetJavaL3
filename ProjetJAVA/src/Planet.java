@@ -1,5 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,18 +11,31 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Planet {
+/**
+ * 
+ * @author Luka Moraiz and Clément Brandel
+ *
+ */
+
+public class Planet implements Serializable{
 
 	private int diameter,defencePow, prodRate, typeProducted;
 	private Sprite sprite;
 	private Player owner;
 	private int nbOfSpaceshipToSend;
 	private boolean selectedAndValid;
-	private int squadronReady;
-	private List<Squadron> squadrons;
+	private ArrayList<Squadron> squadrons;
 	
+	/**
+	 * 
+	 * @param diameter  	diameter of planet
+	 * @param defencePow	hit point of planet
+	 * @param prodRate		production's rate of spaceship
+	 * @param typeProducted      Spaceship's type
+	 * @param sprite
+	 * @param owner			player
+	 */
 	public Planet(int diameter, int defencePow, int prodRate, int typeProducted, Sprite sprite, Player owner) {
-		super();
 		this.diameter = diameter;
 		this.defencePow = defencePow;
 		this.prodRate = prodRate;
@@ -28,30 +44,42 @@ public class Planet {
 		this.owner = owner;
 		this.nbOfSpaceshipToSend = 0;
 		this.selectedAndValid = false;
-		this.squadronReady = -1;
 		this.squadrons = new ArrayList<Squadron>();
 	}
+	
+	/**
+	 * 
+	 * @return hit point of planet
+	 */
 	public int getDefencePow() {
 		return defencePow;
 	}
+	/**
+	 * 
+	 * @return sprite of planet
+	 */
 	public Sprite getSprite() {
 		return sprite;
 	}
-	
-	public int getSquadronReady() {
-		return squadronReady;
-	}
-	
-	protected void setSquadronReady(int squadronReady) {
-		this.squadronReady = squadronReady;
-	}
-	public List<Squadron> getSquadrons() {
+/**
+ * 
+ * @return squadrons of planet
+ */
+	public ArrayList<Squadron> getSquadrons() {
 		return squadrons;
 	}
+	/**
+	 * 
+	 * @return true if planet is selected and valid , false otherwise
+	 */
 	public boolean isSelectedAndValid() {
 		return selectedAndValid;
 	}
-	
+	/**
+	 * 
+	 * @param p2  ==> planet
+	 * @return true if no superposition between planet , false otherwise
+	 */
 	public boolean planetCollision(Planet p2)
 	{
 		
@@ -63,6 +91,7 @@ public class Planet {
 		}
 		else return false;
 	}
+	
 	public void correctCollision()
 	{
 		for (int i = 0; i<Game.getPlanetslist().size()-1; i++)
@@ -74,10 +103,17 @@ public class Planet {
 			}
 		}
 	}
+	
 	public void timeAugmentation()
 	{
 		this.defencePow++;
 	}
+	/**
+	 * 
+	 * @param x ==> abscissa
+	 * @param y ==> ordinate 
+	 * @return true if the point (x,y) is on a planet, false otherwise.
+	 */
 	public boolean isSelected(double x, double y)
 	{
 		if(Math.sqrt(Math.pow(x-(this.getSprite().getX()+this.getSprite().width()/2), 2)+Math.pow(y-(this.getSprite().getY()+this.getSprite().width()/2), 2))<this.getSprite().width()/2) return true;
@@ -95,6 +131,11 @@ public class Planet {
 			Game.getSelected().add(this);
 		}
 	}
+	/**
+	 * 
+	 * @param p  ==> planet
+	 * @return true if the planet is equal to p, false otherwise.
+	 */
 	public boolean equals(Planet p)
 	{
 		if(this == p) return true;
@@ -105,7 +146,15 @@ public class Planet {
 				this.sprite == p.sprite) return true;
 		else return false;
 	}
-	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination, List<Planet> planetsList )
+	
+	/**
+	 * 
+	 * @param window 
+	 * @param field     ==> text
+	 * @param planetDestination ==> destination's planet
+	 * @return 
+	 */
+	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
 	{
 		try {
 			
@@ -114,20 +163,19 @@ public class Planet {
 			{
 			window.close();
 			int j = 0;
-			Squadron sq = new Squadron(planetDestination,  planetsList);
-			for (int i = 0; i < (nbOfSpaceshipToSend*this.defencePow+18)/100; i++) {
-				SpaceShip sp = new SpaceShip(this.typeProducted);
-				double[] spaceShipPositions = generatePointInOrbit(j*20);
-				sp.getSprite().setPosition(spaceShipPositions[0], spaceShipPositions[1]);
-				//sp.getSprite().setPosition(200, 200);
-		
+			Squadron sq = new Squadron(planetDestination);
+			int realNumOfSpaceShipToSend = (nbOfSpaceshipToSend*this.defencePow)/100;
+			System.out.println(realNumOfSpaceShipToSend);
+			for (int i = 0; i < realNumOfSpaceShipToSend; i++) {
+				
+				SpaceShip sp = generatePointInOrbit(j*18);
+				
 				sq.addSpaceShip(sp);
 
 				this.defencePow = this.defencePow - sp.getAttak();
 				j++;
 			}
 			this.squadrons.add(sq);
-			this.squadronReady =this.squadrons.indexOf(sq);
 			return true;
 			}
 			else {
@@ -138,7 +186,38 @@ public class Planet {
 			return false;
 		}
 	}
-	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination, List<Planet> planetsList)
+	/**
+	 * 
+	 * @param numberSpaceShip 
+	 * @param planetDestination
+	 */
+	public void generateSpaceShips(int numberSpaceShip, Planet planetDestination)
+	{
+		this.nbOfSpaceshipToSend = numberSpaceShip;
+			if(this.nbOfSpaceshipToSend >= 0 && this.nbOfSpaceshipToSend<=100)
+			{
+			int j = 0;
+			Squadron sq = new Squadron(planetDestination);
+			int realNumOfSpaceShipToSend = (nbOfSpaceshipToSend*this.defencePow)/100;
+			for (int i = 0; i < realNumOfSpaceShipToSend; i++) {
+				SpaceShip sp = generatePointInOrbit(j*18);
+				
+				sq.addSpaceShip(sp);
+				this.defencePow = this.defencePow - sp.getAttak();
+				j++;
+			}
+			this.squadrons.add(sq);
+			
+			}
+			
+		
+	}
+	/**
+	 * 
+	 * @param primaryStage
+	 * @param planetDestination
+	 */
+	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination)
 	{
 		
 		Label secondLabel = new Label("Combien de vaisseaux voulez vous envoyer ? (en %)");
@@ -156,25 +235,30 @@ public class Planet {
         newWindow.setTitle("Invasion");
         newWindow.setScene(secondScene);
         
-        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip, planetDestination,  planetsList));
+        buttonV.setOnAction( e -> this.generateSpaceShips( newWindow, nbOfSpaceShip, planetDestination));
         // Set position of second window, related to primary window.
         newWindow.setX(primaryStage.getX() + 200);
         newWindow.setY(primaryStage.getY() + 100);
 
         newWindow.show();
 	}
-	public double[] generatePointInOrbit(double angleDeg) {
-		double[] point = new double[2];
+	/**
+	 * 
+	 * @param angleDeg angles in degrees
+	 * @return spaceship 
+	 */
+	public SpaceShip generatePointInOrbit(double angleDeg) {
+		
 		double angleRad = Math.toRadians(angleDeg);
 		double radius =  (this.getSprite().width())/2;
 		
 		double centerX = this.sprite.getX() + radius ;
 		double centerY = this.sprite.getY() + radius ;
-		double x = (centerX + radius * Math.cos(angleRad));
-		double y = (centerY + radius * Math.sin(angleRad));
-	
-		point[0] = x;
-		point[1] = y;
-		return point;
+		double x = centerX + (radius + 20) * Math.cos(angleRad);
+		double y = centerY + (radius + 20) * Math.sin(angleRad);
+		SpaceShip s = new SpaceShip(this.typeProducted);
+		s.getSprite().setPosition(x-s.getSprite().height()/2, y-s.getSprite().height()/2);
+		s.getSprite().setSpeed(1, 1);
+		return s;
 	}
 }
