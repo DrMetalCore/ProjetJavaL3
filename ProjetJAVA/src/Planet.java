@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 /**
  * 
  * @author Luka Moraiz and Clément Brandel
- *
+ * @version 1
  */
 
 public class Planet implements Serializable{
@@ -34,6 +34,7 @@ public class Planet implements Serializable{
 	 * @param typeProducted      Spaceship's type
 	 * @param sprite
 	 * @param owner			player
+	 * @version 1
 	 */
 	public Planet(int diameter, int defencePow, int prodRate, int typeProducted, Sprite sprite, Player owner) {
 		this.diameter = diameter;
@@ -47,30 +48,20 @@ public class Planet implements Serializable{
 		this.squadrons = new ArrayList<Squadron>();
 	}
 	
-	/**
-	 * 
-	 * @return hit point of planet
-	 */
+	
 	public int getDefencePow() {
 		return defencePow;
 	}
-	/**
-	 * 
-	 * @return sprite of planet
-	 */
 	public Sprite getSprite() {
 		return sprite;
 	}
-/**
- * 
- * @return squadrons of planet
- */
 	public ArrayList<Squadron> getSquadrons() {
 		return squadrons;
 	}
 	/**
 	 * 
 	 * @return true if planet is selected and valid , false otherwise
+	 * @version 1
 	 */
 	public boolean isSelectedAndValid() {
 		return selectedAndValid;
@@ -79,6 +70,7 @@ public class Planet implements Serializable{
 	 * 
 	 * @param p2   planet
 	 * @return true if no superposition between planets , false otherwise
+	 * @version 1
 	 */
 	public boolean planetCollision(Planet p2)
 	{
@@ -93,7 +85,7 @@ public class Planet implements Serializable{
 	}
 	/**
 	* correct if there is a superposition between planets
-	*
+	* @version 1
 	*/
 	public void correctCollision()
 	{
@@ -108,7 +100,7 @@ public class Planet implements Serializable{
 	}
 	/**
 	* defencePow's planet increase
-	*
+	* @version 1
 	*/
 	public void timeAugmentation()
 	{
@@ -119,6 +111,7 @@ public class Planet implements Serializable{
 	 * @param x  abscissa
 	 * @param y  ordinate 
 	 * @return true if the point (x,y) is on a planet, false otherwise.
+	 * @version 1
 	 */
 	public boolean isSelected(double x, double y)
 	{
@@ -128,7 +121,7 @@ public class Planet implements Serializable{
 	
 	/**
 	* true if the planet selected can be selected to be attacked , false otherwise
-	*
+	* @version 1
 	*/
 	
 	public void isValid()
@@ -147,6 +140,7 @@ public class Planet implements Serializable{
 	 * 
 	 * @param p   planet 
 	 * @return true if the planet is equal to p, false otherwise.
+	 * @version 1
 	 */
 	public boolean equals(Planet p)
 	{
@@ -165,6 +159,7 @@ public class Planet implements Serializable{
 	 * @param field    text
 	 * @param planetDestination  destination's planet
 	 * @return true if squadron of spaceships are created, false otherwise
+	 * @version 1
 	 */
 	public boolean generateSpaceShips(Stage window, TextField field, Planet planetDestination)
 	{
@@ -199,7 +194,7 @@ public class Planet implements Serializable{
 		}
 	}
 	/**
-	 * 
+	 * the function generate spaceship 
 	 * @param numberSpaceShip     the number of spaceship
 	 * @param planetDestination   planet of destination
 	 * 
@@ -226,10 +221,10 @@ public class Planet implements Serializable{
 		
 	}
 	/**
-	 * 
-	 * @param primaryStage ==> primary stage
-	 * @param planetDestination ==> planet of destination
 	 * ask the number of spaceship to deploy on other planet 
+	 * @param primaryStage    
+	 * @param planetDestination   planet of destination
+	 * @version 1 
 	 */
 	public void nbOfSpaceShipBox(Stage primaryStage, Planet planetDestination)
 	{
@@ -259,7 +254,8 @@ public class Planet implements Serializable{
 	/**
 	 * 
 	 * @param angleDeg angles in degrees
-	 * @return point on orbit of planet
+	 * @return point in orbit of planet
+	 * @version 1
 	 */
 	public SpaceShip generatePointInOrbit(double angleDeg) {
 		
