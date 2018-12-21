@@ -1,11 +1,20 @@
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
+
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
-public class Sprite {
-	private Image image;
+public class Sprite implements Serializable{
+	private String imagePath;
+	//private String base64Image;
 	private double x;
 	private double y;
 	private double xSpeed;
@@ -16,13 +25,14 @@ public class Sprite {
 	private double maxY;
 
 	public Sprite(String path, double width, double height, double maxX, double maxY) {
-		image = new Image(path, width, height, false, false);
+		this.imagePath = path;
+		//this.base64Image = encoder();
 		this.width = width;
 		this.height = height;
 		this.maxX = maxX;
 		this.maxY = maxY;
 	}
-
+	/*
 	public Sprite(Sprite s) {
 		image = s.image;
 		width = s.width;
@@ -30,7 +40,7 @@ public class Sprite {
 		maxX = s.maxX;
 		maxY = s.maxY;
 	}
-
+	*/
 	public double width() {
 		return width;
 	}
@@ -75,7 +85,34 @@ public class Sprite {
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 	}
-
+	/*
+	public  String encoder() {
+		File file = new File(this.imagePath);
+		try (FileInputStream imageInFile = new FileInputStream(file)) {
+			// Reading a Image file from file system
+			byte imageData[] = new byte[(int) file.length()];
+			imageInFile.read(imageData);
+			this.base64Image = Base64.encode(imageData);
+		} catch (FileNotFoundException e) {
+			System.out.println("Image not found" + e);
+		} catch (IOException ioe) {
+			System.out.println("Exception while reading the Image " + ioe);
+		}
+		return base64Image;
+	}
+	
+	public static void decoder() {
+		try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
+			// Converting a Base64 String into Image byte array
+			byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
+			imageOutFile.write(imageByteArray);
+		} catch (FileNotFoundException e) {
+			System.out.println("Image not found" + e);
+		} catch (IOException ioe) {
+			System.out.println("Exception while reading the Image " + ioe);
+		}
+	}
+	*/
 	public void changeSpeed(KeyCode code) {
 		switch (code) {
 		case LEFT:
@@ -104,7 +141,7 @@ public class Sprite {
 	}
 
 	public void render(GraphicsContext gc) {
-		gc.drawImage(image, x, y);
+		gc.drawImage(new Image(imagePath, width, height, false, false), x, y);
 	}
 
 	public boolean intersects(Sprite s) {
