@@ -11,13 +11,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 /**
- * 
+ * Class that manage animations
  * @author Luka Moraiz and Clément Brandel
  *
  */
 public class Sprite implements Serializable{
 	private String imagePath;
-	//private String base64Image;
 	private double x;
 	private double y;
 	private double xSpeed;
@@ -30,44 +29,41 @@ public class Sprite implements Serializable{
 	
 	/**
 	 * 
-	 * @param path	
-	 * @param width ==> width of window
-	 * @param height == > height of window
-	 * @param maxX	
-	 * @param maxY
+	 * @param path Path of the image
+	 * @param width Width of the image when use in the game
+	 * @param height Height of the image when use in the game
+	 * @param maxX Maximun range of the Sprite
+	 * @param maxY	Maximun range of the Sprite
 	 */
 	public Sprite(String path, double width, double height, double maxX, double maxY) {
 		this.imagePath = path;
-		//this.base64Image = encoder();
 		this.width = width;
 		this.height = height;
 		this.maxX = maxX;
 		this.maxY = maxY;
 	}
-	/*
-	public Sprite(Sprite s) {
-		image = s.image;
-		width = s.width;
-		height = s.height;
-		maxX = s.maxX;
-		maxY = s.maxY;
-	}
-	*/
-	/**
-	 * 
-	 * @return width of window
-	 */
 	public double width() {
 		return width;
 	}
-	/**
-	 * 
-	 * @return height of window
-	 */
+
 	public double height() {
 		return height;
 	}
-
+		public double getX() {
+		return x;
+	}
+	public double getY() {
+		return y;
+	}
+	public double getXspeed() {
+ 		return xSpeed;
+ 	}
+ 	public double getYspeed() {
+ 		return ySpeed;
+ 	}
+	/**
+	 * Validated the position of the sprite and correct if it's not valid
+	 */
 	public void validatePosition() {
 		if (x + width >= maxX) {
 			x = maxX - width;
@@ -85,118 +81,45 @@ public class Sprite implements Serializable{
 			ySpeed *= -1;
 		}
 	}
-	/**
-	 * 
-	 * @return x
-	 */
-	public double getX() {
-		return x;
-	}
-	/**
-	 * 
-	 * @return y
-	 */
-	public double getY() {
-		return y;
-	}
-	/**
-	 * 
-	 * @return vitesse d'abscisse
-	 */
-	public double getXspeed() {
- 		return xSpeed;
- 	}
-	/**
-	 * 
-	 * @return vitesse de l'ordonnée
-	 */
- 	public double getYspeed() {
- 		return ySpeed;
- 	}
+
  	/**
- 	 * 
- 	 * @param x ==> position on abscissa
- 	 * @param y ==> position on ordinate
+ 	 * Change the position of the sprite en then validate it
+ 	 * @param x position on x
+ 	 * @param y position on y
  	 */
 	public void setPosition(double x, double y) {
 		this.x = x;
 		this.y = y;
-		//validatePosition();
+		validatePosition();
 	}
 	/**
-	 * 
-	 * @param xSpeed ==> vitesse de l'abscisse
-	 * @param ySpeed ==> vitesse de l'ordonnée
+	 * Change the speed of the sprite
+	 * @param xSpeed speed on x
+	 * @param ySpeed speed on y
 	 */
 	public void setSpeed(double xSpeed, double ySpeed) {
 		this.xSpeed = xSpeed;
 		this.ySpeed = ySpeed;
 	}
-	/*
-	public  String encoder() {
-		File file = new File(this.imagePath);
-		try (FileInputStream imageInFile = new FileInputStream(file)) {
-			// Reading a Image file from file system
-			byte imageData[] = new byte[(int) file.length()];
-			imageInFile.read(imageData);
-			this.base64Image = Base64.encode(imageData);
-		} catch (FileNotFoundException e) {
-			System.out.println("Image not found" + e);
-		} catch (IOException ioe) {
-			System.out.println("Exception while reading the Image " + ioe);
-		}
-		return base64Image;
-	}
-	
-	public static void decoder() {
-		try (FileOutputStream imageOutFile = new FileOutputStream(pathFile)) {
-			// Converting a Base64 String into Image byte array
-			byte[] imageByteArray = Base64.getDecoder().decode(base64Image);
-			imageOutFile.write(imageByteArray);
-		} catch (FileNotFoundException e) {
-			System.out.println("Image not found" + e);
-		} catch (IOException ioe) {
-			System.out.println("Exception while reading the Image " + ioe);
-		}
-	}
-	*/
-	public void changeSpeed(KeyCode code) {
-		switch (code) {
-		case LEFT:
-			xSpeed--;
-			break;
-		case RIGHT:
-			xSpeed++;
-			break;
-		case UP:
-			ySpeed--;
-			break;
-		case DOWN:
-			ySpeed++;
-			break;
-		case SPACE:
-			ySpeed = xSpeed = 0;
-			break;
-		default:
-		}
-	}
-	
+	/**
+	 * Update the position of the sprite and validate it
+	 */
 	public void updatePosition() {
 		x += xSpeed;
 		y += ySpeed;
 		validatePosition();
 	}
 	/** 
-	 * 
-	 * @param gc
+	 * Show the sprite
+	 * @param gc Graphic context of the window
 	 */
 	public void render(GraphicsContext gc) {
 		gc.drawImage(new Image(imagePath, width, height, false, false), x, y);
 	}
 	/**
-	 * 
-	 * @param s ==> 
-	 * @return
+	 * Test if 2 sprite intersects
+	 * @param s second sprite 
+	 * @return true if thier intersects flase otherwise
 	 */
 	public boolean intersects(Sprite s) {
 		return ((x >= s.x && x <= s.x + s.width) || (s.x >= x && s.x <= x + width))
@@ -207,20 +130,18 @@ public class Sprite implements Serializable{
 		return "Sprite<" + x + ", " + y + ">";
 	}
 	/**
-	 * 
-	 * @param x ==> abscissa 
-	 * @param y ==> ordinate
+	 * Calcul the distance between 2 sprites
+	 * @param x position in x 
+	 * @param y position in y
 	 * @return the distance between the sprite and the point (x,y)
 	 */
 	public double distance(double x, double y) {
- 		/*this.x = x;
- 		this.y = y;*/
  		return (Math.sqrt(Math.pow((this.getX() - x),2) + Math.pow((this.getY() - y),2)));
  	}
 	/** 
-	 * 
-	 * @param tab ==> tab of vector(spaceship, planet)
-	 * @return vector divide
+	 * Reduce the vetor
+	 * @param tab tab of vector(spaceship, planet)
+	 * @return divided vector
 	 */
  	public double[] vectorSpaceShipToPlanet(double tab[]) {
  
