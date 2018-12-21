@@ -30,14 +30,14 @@ public class Squadron {
 			
 			spaceShip.spaceShipToPlanet(spaceShip.getSprite().vectorSpaceShipToPlanet(spaceShip.vector(this.planetDestination)));
 			
-			for ( Planet planet : planetsList ) {
+			/*for ( Planet planet : planetsList ) {
 				
 				if  ((planet.getSprite().distance(spaceShip.getSprite().getX(), spaceShip.getSprite().getY())) < 100) {
 					
 					spaceShip.pointRotation(planet.getSprite().getX() , planet.getSprite().getY() , 12);
 					
 				}
-			}
+			}*/
 			
 			if (spaceShip.spaceShipOnPlanet(planetDestination) == true ) {
 				shipsList.remove(spaceShip);
