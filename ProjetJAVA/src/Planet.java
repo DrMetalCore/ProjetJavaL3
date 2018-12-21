@@ -1,5 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,17 +11,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Planet {
+public class Planet implements Serializable{
 
 	private int diameter,defencePow, prodRate, typeProducted;
 	private Sprite sprite;
 	private Player owner;
 	private int nbOfSpaceshipToSend;
 	private boolean selectedAndValid;
-	private List<Squadron> squadrons;
+	private ArrayList<Squadron> squadrons;
+	
 	
 	public Planet(int diameter, int defencePow, int prodRate, int typeProducted, Sprite sprite, Player owner) {
-		super();
 		this.diameter = diameter;
 		this.defencePow = defencePow;
 		this.prodRate = prodRate;
@@ -36,7 +39,7 @@ public class Planet {
 		return sprite;
 	}
 
-	public List<Squadron> getSquadrons() {
+	public ArrayList<Squadron> getSquadrons() {
 		return squadrons;
 	}
 	public boolean isSelectedAndValid() {
@@ -106,7 +109,10 @@ public class Planet {
 			window.close();
 			int j = 0;
 			Squadron sq = new Squadron();
-			for (int i = 0; i < (nbOfSpaceshipToSend*this.defencePow+18)/100; i++) {
+			int realNumOfSpaceShipToSend = (nbOfSpaceshipToSend*this.defencePow)/100;
+			System.out.println(realNumOfSpaceShipToSend);
+			for (int i = 0; i < realNumOfSpaceShipToSend; i++) {
+				
 				SpaceShip sp = generatePointInOrbit(j*18);
 				
 				sq.addSpaceShip(sp);
@@ -124,6 +130,27 @@ public class Planet {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	public void generateSpaceShips(int numberSpaceShip)
+	{
+		this.nbOfSpaceshipToSend = numberSpaceShip;
+			if(this.nbOfSpaceshipToSend >= 0 && this.nbOfSpaceshipToSend<=100)
+			{
+			int j = 0;
+			Squadron sq = new Squadron();
+			int realNumOfSpaceShipToSend = (nbOfSpaceshipToSend*this.defencePow)/100;
+			for (int i = 0; i < realNumOfSpaceShipToSend; i++) {
+				SpaceShip sp = generatePointInOrbit(j*18);
+				
+				sq.addSpaceShip(sp);
+				this.defencePow = this.defencePow - sp.getAttak();
+				j++;
+			}
+			this.squadrons.add(sq);
+			
+			}
+			
+		
 	}
 	public void nbOfSpaceShipBox(Stage primaryStage)
 	{
@@ -159,16 +186,9 @@ public class Planet {
 		double centerY = this.sprite.getY() + radius ;
 		double x = centerX + (radius + 20) * Math.cos(angleRad);
 		double y = centerY + (radius + 20) * Math.sin(angleRad);
-		System.out.println("/////////////////");
-		System.out.println(x);
-		System.out.println(y);
-		System.out.println(angleDeg);
-		System.out.println("/////////////////");
-
-		
 		SpaceShip s = new SpaceShip(this.typeProducted);
 		s.getSprite().setPosition(x-s.getSprite().height()/2, y-s.getSprite().height()/2);
-		s.getSprite().setSpeed(10, 10);
-		return s; 
+
+		return s;
 	}
 }
