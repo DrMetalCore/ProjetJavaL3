@@ -50,7 +50,7 @@ import javafx.stage.Stage;
 /**
  * Main class that run the program
  * @author Luka Moraiz et Clément Brandel
- * 
+ * @version 1
  *
  */
 
@@ -67,6 +67,7 @@ public class Game extends Application {
 	 * 
 	 * @param name
 	 * @return the path of the ressource
+	 * @version 1
 	 */
 	public static String getRessourcePathByName(String name) {
 		return Game.class.getResource('/' + name).toString();
@@ -75,7 +76,7 @@ public class Game extends Application {
 	/**
 	 * Lauch the program
 	 * @param args arguments of the program
-	 * 
+	 * @version 1
 	 */
 	public static void main(String [] args) {
 		Application.launch(Game.class,args);
@@ -109,6 +110,7 @@ public class Game extends Application {
 	 * Create a planet for a player
 	 * @param p   player that will onw the planet
 	 * @param i   position of the planet i the arrayList PLANETSLIST
+	 * @version 1
 	 */
 	public void generatePlanet(Player p, int i)
 	{
@@ -143,6 +145,7 @@ public class Game extends Application {
 	/**
 	 * Create a dialogue box that demand to the user if he want to load a save
 	 * @param primaryStage main stage of the program
+	 * @version 1
 	 */
 	public void LoadASaveBox(Stage primaryStage)
 	{
@@ -174,7 +177,7 @@ public class Game extends Application {
 	/**
 	 * function use when the user don't load a save
 	 * @param newWindow dialogue box that demand to the user if he want to load a save
-	 * 
+	 * @version 1
 	 */
 	private void noLoadASave(Stage newWindow) {
 		newWindow.close();
@@ -182,7 +185,7 @@ public class Game extends Application {
 	/**
 	 * function use when the user load a save
 	 * @param newWindow dialogue box that demand to the user if he want to load a save
-	 *   
+	 * @version 1
 	 */
 	private void loadASave(Stage newWindow) {
 		newWindow.close();
@@ -206,6 +209,7 @@ public class Game extends Application {
 	 * Start function that manage all the program
 	 * @param primaryStage main stage 
 	 * @throws Exception
+	 * @version 1
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception{
@@ -319,7 +323,7 @@ public class Game extends Application {
 		EventHandler<MouseEvent> mouseHandler = new EventHandler<MouseEvent>() {
 			/**
 				 * Function manage the selection of 2 planets in order to launch an attack
-				 * 
+				 * @version 1
 				 */
 			public void handle(MouseEvent e) {
 				for (Planet planet : PLANETSLIST) {
@@ -341,7 +345,7 @@ public class Game extends Application {
 		new AnimationTimer() {
 			/**
 			* Function handle the display all the animations
-			* 
+			* @version 1
 			*/
 			public void handle(long arg0) {
 				gc.drawImage(space, 0, 0);
