@@ -4,7 +4,7 @@ import java.util.ArrayList;
 /**
  * 
  * @author Luka Moraiz and Clément Brandel
- *
+ * @version 1
  */
 public class SpaceShip implements Serializable{
 	
@@ -12,7 +12,7 @@ public class SpaceShip implements Serializable{
 	private Sprite sprite;
 	/** create a SpaceShip object with a type
 	* the type define some property like speed , attak , production's time and sprite.
-	*
+	* @version 1
 	*/
 	public SpaceShip(int type) {
 		
@@ -34,24 +34,15 @@ public class SpaceShip implements Serializable{
 		}
 		
 	}
-	/**
-	 * 
-	 * @return sprite of spaceship
-	 */
+	
 	public Sprite getSprite() {
 		return sprite;
 	}
-	/** 
-	 * 
-	 * @return attak of spaceship
-	 */
+	
 	public int getAttak() {
 		return attak;
 	}
-	/**
-	 * 
-	 * @return speed of spaceship
-	 */
+	
 	public int getSpeed() {
 		return speed;
 	}
@@ -59,6 +50,7 @@ public class SpaceShip implements Serializable{
 	 * 
 	 * @param p   take position of the planet p     
 	 * @return  a vector(spaceship to planet)
+	 * @version 1
 	 */
 	public double[] vector(Planet p) {
 		double tab[] = {0,0};
@@ -70,6 +62,7 @@ public class SpaceShip implements Serializable{
 	 * 
 	 * @param tab  tab include vector in tab[0] and tab[1]
 	 * give speed to spaceship for planet
+	 * @version 1
 	 */
 	public void spaceShipToPlanet (double[] tab) {
 		this.getSprite().setSpeed(tab[0]/3, tab[1]/3);
@@ -78,6 +71,7 @@ public class SpaceShip implements Serializable{
 	 * 
 	 * @param planetDestination     spaceship go on planetDestination
 	 * @return true if spaceship is on the planetDestination, false otherwise
+	 * @version 1
 	 */
 	public boolean spaceShipOnPlanet(Planet planetDestination) {
 		if (this.getSprite().distance(planetDestination.getSprite().getX()+planetDestination.getSprite().width(), planetDestination.getSprite().getY() + planetDestination.getSprite().height())<30) {
@@ -92,6 +86,7 @@ public class SpaceShip implements Serializable{
 	 * @param angle ==> angle in degrees
 	 * @param p ==> planet
 	 * the function do a rotation of spaceship around the planet p
+	 * @version 1
 	 */
 	public void pointRotation(double cx,double cy, double angle, Planet p){ // centre de la planete : (cx,cy)      // angle en degré 
 		double dirP1 = Math.atan2(cy - this.getSprite().getY(), cx-this.getSprite().getX()); 
