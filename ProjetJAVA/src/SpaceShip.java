@@ -10,6 +10,10 @@ public class SpaceShip implements Serializable{
 	
 	private int speed,prodTime,attak,type;
 	private Sprite sprite;
+	/** create a SpaceShip object with a type
+	* the type define some property like speed , attak , production's time and sprite.
+	*
+	*/
 	public SpaceShip(int type) {
 		
 		this.type=type;
