@@ -62,7 +62,7 @@ public class SpaceShip {
 		
 	}// marche pas encore
 	
-	public void pointRotation(double cx,double cy, double angle){ // centre de la planete : (cx,cy)      // angle en degré 
+	public void pointRotation(double cx,double cy, double angle, Planet p){ // centre de la planete : (cx,cy)      // angle en degré 
 		double dirP1 = Math.atan2(cy - this.getSprite().getY(), cx-this.getSprite().getX()); 
 	   
 	 	double dirP2 = dirP1 + angle; 
