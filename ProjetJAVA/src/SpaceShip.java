@@ -34,8 +34,8 @@ public class SpaceShip {
 	
 	public double[] vector(Planet p) {
 		double tab[] = {0,0};
-		tab[0]= p.getSprite().getX() - this.getSprite().getX();
-		tab[1]= p.getSprite().getY() - this.getSprite().getY();
+		tab[0]= p.getSprite().getX()+40 - this.getSprite().getX();
+		tab[1]= p.getSprite().getY()+40 - this.getSprite().getY();
 		return tab;
 	}
 	
