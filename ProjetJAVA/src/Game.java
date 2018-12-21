@@ -253,7 +253,7 @@ public class Game extends Application {
 			TimerTask increaseDefPow = new TimerTask() {
 				/**
 				 * Function that augment planets point every seconds
-				 * 
+				 * @version 1
 				 */
 				@Override
 				public void run() {
@@ -267,7 +267,7 @@ public class Game extends Application {
 			TimerTask autoAttakTimer = new TimerTask() {
 				/**
 				 * Function that allow the IA to attack other planet 5 seconds after the start of the game and then every 7 seconds
-				 * 
+				 * @version 1
 				 */
 				@Override
 				public void run() {
