@@ -16,6 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.sun.glass.events.WindowEvent;
+import com.sun.org.apache.bcel.internal.generic.FNEG;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -114,7 +115,7 @@ public class Game extends Application {
 		else imagePath = "ressources/PlanetNeutral.png";
 		PLANETSLIST.add(new Planet(planetR, defR, prodR, 1, new Sprite(getRessourcePathByName(imagePath), planetR, planetR,  WIDTH, HEIGHT), p));
 		PLANETSLIST.get(i).getSprite().setPosition(WIDTH* Math.random(), HEIGHT * Math.random());
-		p.addPlanet(PLANETSLIST.get(i));
+		if(i<2) p.addPlanet(PLANETSLIST.get(i));
 		if(i!=0) PLANETSLIST.get(i).correctCollision();
 		
 	}
@@ -227,11 +228,16 @@ public class Game extends Application {
 			
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		LoadASaveBox(primaryStage);
+		File fsave = new File("save.txt");
+		if(fsave.createNewFile()==false)
+		{
+			LoadASaveBox(primaryStage);
+		}
 		 primaryStage.setOnCloseRequest( event ->
 		    {
 		    	try {
-					ObjectOutputStream objectSave = new ObjectOutputStream(new FileOutputStream("save.txt"));
+		    		File fileSave = new File("save.txt");
+					ObjectOutputStream objectSave = new ObjectOutputStream(new FileOutputStream(fileSave));
 					objectSave.writeObject(player);
 					objectSave.writeObject(ia);
 					objectSave.writeObject(PLANETSLIST);
@@ -269,7 +275,7 @@ public class Game extends Application {
 						planet.isValid();
 					}
 					else if(SELECTED.size()==2) {
-						SELECTED.get(0).nbOfSpaceShipBox(primaryStage);
+						SELECTED.get(0).nbOfSpaceShipBox(primaryStage, SELECTED.get(1));
 						SELECTED.clear();
 					}
 				}
