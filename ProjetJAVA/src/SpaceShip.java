@@ -23,7 +23,7 @@ public class SpaceShip implements Serializable{
 			this.speed = 10;
 			this.prodTime = 1;
 			this.attak = 1;
-			this.sprite = new Sprite(Game.getRessourcePathByName("ressources/SpaceShipType1.png"), 18, 22, Game.getHeight(), Game.getHeight());
+			this.sprite = new Sprite(Game.getRessourcePathByName("ressources/SpaceShipType1.png"), 65, 65, Game.getHeight(), Game.getHeight());
 		}
 		if(this.type==2)
 		{
